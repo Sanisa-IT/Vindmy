@@ -230,6 +230,11 @@ nav.navbar {
   text-align: center;
   padding: 180px 20px;
 }
+.hero-section > .container {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: fadeInUp 1s ease-out 0.2s forwards;
+}
 .hero-image {
   width: 600px;   /* set the size you want */
   height: auto;   /* keeps proportions */
@@ -241,6 +246,13 @@ nav.navbar {
 .hero-section h1,
 .hero-section p {
   text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 
@@ -793,13 +805,13 @@ nav.navbar {
     margin-top: 30px;
   }
 }
-
+#7C3AED
 
 
 :root{
-    --primary:#7C3AED;
+    --primary:#2563EB;
     --secondary:#06B6D4;
-    --accent:#2563EB;
+    --accent:#7C3AED;
 
     --dark:#0F172A;
     --light:#F8FAFC;
@@ -987,31 +999,44 @@ body{
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  gap: 40px;
   padding: 40px;
   background: #fff;
 }
 
-#our-impact .impact-image {
-  flex: 1;
-  min-width: 250px;
+#our-impact .impact-image,
+#our-impact .impact-content {
+  min-width: 280px;
 }
 
-#our-impact img {
-  max-width: 100%;
-  border-radius: 8px;
+#our-impact .impact-image {
+  flex: 1 1 360px;
+}
+
+#our-impact .impact-image img {
+  width: 60%;
+  height: auto;
+  border-radius: 16px;
+  display: block;
 }
 
 #our-impact .impact-content {
-  flex: 2;
+  flex: 1 1 360px;
   padding: 20px;
 }
 
-#our-impact h2 {
+#our-impact .impact-content h2 {
   font-size: 2em;
   margin-bottom: 20px;
-  background: linear-gradient(90deg, #f9c400, #ff6f00);
+  background: linear-gradient(90deg, #000000, #000000);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+#our-impact .impact-content p {
+  color: var(--dark);
+  line-height: 1.8;
+  max-width: 680px;
 }
 
 #our-impact ul {
@@ -1021,6 +1046,17 @@ body{
 
 #our-impact li {
   margin-bottom: 10px;
+}
+
+@media (max-width: 900px) {
+  #our-impact {
+    flex-direction: column;
+    text-align: left;
+  }
+
+  #our-impact .impact-content {
+    padding: 0;
+  }
 }
 #stats-section {
   background: #0F172A; /* dark navy */
