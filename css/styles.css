@@ -36,11 +36,25 @@ nav.navbar {
   gap: 1rem;
 }
 
+.logo {
+  display: flex;          /* puts items side by side */
+  align-items: center;    /* vertical alignment */
+}
+
 .logo img {
-  height: 48px;
+  height: 50px;
   width: auto;
   display: block;
 }
+
+.logo-text {
+  margin-left: 10px;      /* space between logo and text */
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color); /* or var(--white) depending on background */
+}
+
+
 
 .nav-links {
   list-style: none;
