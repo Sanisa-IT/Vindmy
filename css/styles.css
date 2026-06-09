@@ -105,11 +105,26 @@ nav.navbar {
    HERO SECTION
 ========================================== */
 .hero-section {
-  background: var(--gradient-primary);
+  background: url("../Images/Home_screen.jpg") bottom /cover no-repeat;
   color: var(--white);
   text-align: center;
-  padding: 100px 20px;
+  padding: 180px 20px;
 }
+.hero-image {
+  width: 600px;   /* set the size you want */
+  height: auto;   /* keeps proportions */
+  display: block;
+  margin: 0 auto; /* centers the image */
+}
+
+
+.hero-section h1,
+.hero-section p {
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+}
+
+
+
 
 .hero-section h1 {
   font-size: 3rem;
