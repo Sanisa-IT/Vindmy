@@ -23,6 +23,60 @@
     </ul>
   </div>
 </nav>
+<section class="support-section">
+  <div class="support-grid">
+    
+    <!-- Left: Form -->
+    <div class="support-container">
+      <h2>Support & Query Form</h2>
+      <form class="support-form" id="supportForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="mobile">Mobile Number</label>
+        <input type="tel" id="mobile" name="mobile" required>
+
+        <label for="category">Query Category</label>
+        <select id="category" name="category" required>
+          <option value="">-- Select Category --</option>
+          <option value="technical">Technical Support</option>
+          <option value="billing">Billing</option>
+          <option value="general">General Query</option>
+        </select>
+
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <label for="attachment">Attachment</label>
+        <input type="file" id="attachment" name="attachment">
+
+        <div class="consent">
+          <input type="checkbox" id="consent" name="consent" required>
+          <label for="consent">I consent to my data being processed</label>
+        </div>
+
+        <button type="submit">Submit Query</button>
+      </form>
+    </div>
+
+    <!-- Right: Contact Details -->
+    <div class="contact-details">
+      <h3>Contact Us</h3>
+      <p><strong>Phone:</strong> +27 12 345 6789</p>
+      <p><strong>Email:</strong> support@vindmy.com</p>
+      <p><strong>Address:</strong> 123 Main Street, Pretoria, South Africa</p>
+      <p>We’re available Mon–Fri, 9 AM – 5 PM.</p>
+    </div>
+
+  </div>
+</section>
+
 
 <footer class="site-footer">
   <div class="container footer-grid">

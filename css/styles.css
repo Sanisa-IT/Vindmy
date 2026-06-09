@@ -217,17 +217,9 @@ nav.navbar {
     align-items: center;
   }
 
-  .footer-grid {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+
   }
 
-  .footer-grid > div {
-    width: 100%;
-    max-width: 400px;
-  }
-}
 
 /* ==========================================
    HERO SECTION
@@ -374,7 +366,7 @@ nav.navbar {
 
 .locations-section {
   padding: 80px 20px;
-  background: #f9f9f9;
+  background: var(--gradient-primary);
   text-align: center;
 }
 .locations-grid {
@@ -527,7 +519,7 @@ nav.navbar {
   text-decoration: none;
 }
 .footer-grid a:hover {
-  color: #FFD700;
+  color: #8405fc;
 }
 .social-icons img {
   height: 25px;
@@ -542,5 +534,263 @@ nav.navbar {
   color: #fff;
   text-align: center;
   padding: 40px 20px;
+}
+
+/* ==========================================
+   SUPPORT & QUERY FORM
+========================================== */
+.support-section {
+  background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
+  padding: 100px 20px;
+}
+
+.support-container {
+  max-width: 700px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(37,99,235,.08);
+}
+
+.support-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 30px;
+}
+
+.support-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.support-form input,
+.support-form select,
+.support-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  background: #f9fafb;
+  color: var(--dark);
+  font-size: 1rem;
+}
+
+.support-form input[type="file"] {
+  border: none;
+  background: none;
+}
+
+.support-form .consent {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.support-form .consent input {
+  margin-right: 10px;
+}
+
+.support-form button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--gradient-button);
+  color: var(--white);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .3s ease;
+  box-shadow: 0 10px 25px rgba(37,99,235,.25);
+}
+
+.support-form button:hover {
+  transform: translateY(-3px);
+  opacity: 0.95;
+}
+
+/* Success & Error Messages */
+.form-message {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.form-message.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.form-message.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+/* ==========================================
+   SUPPORT & QUERY LAYOUT WITH CONTACT
+========================================== */
+.support-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* form wider, contact narrower */
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Contact Details Card */
+.contact-details {
+  background: var(--dark-light);
+  color: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(15,23,42,.15);
+}
+
+.contact-details h3 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.contact-details p {
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+/* Responsive: stack vertically on mobile */
+@media (max-width: 768px) {
+  .support-grid {
+    grid-template-columns: 1fr; /* single column */
+  }
+
+  .contact-details {
+    margin-top: 30px; /* spacing below form */
+  }
+}
+/* ==========================================
+   PROFILE VERIFICATION PAGE
+========================================== */
+.verification-section {
+  background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
+  padding: 100px 20px;
+}
+
+.verification-grid {
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* form wider, contact narrower */
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.verification-container {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(37,99,235,.08);
+}
+
+.verification-container h2 {
+  text-align: center;
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 30px;
+}
+
+.verification-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.verification-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  background: #f9fafb;
+  color: var(--dark);
+  font-size: 1rem;
+}
+
+.verification-form input[type="file"] {
+  border: none;
+  background: none;
+}
+
+.verification-form .consent {
+  display: flex;
+  align-items: right;   /* keeps checkbox and text aligned */
+  gap: 6px;              /* small space between checkbox and text */
+  margin-bottom: 20px;
+}
+
+
+
+.verification-form .consent label {
+  margin: 0;             /* keep text tight with checkbox */
+  font-weight: 700;
+  color: var(--dark);
+}
+
+
+.verification-form button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--gradient-button);
+  color: var(--white);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .3s ease;
+  box-shadow: 0 10px 25px rgba(37,99,235,.25);
+}
+
+.verification-form button:hover {
+  transform: translateY(-3px);
+  opacity: 0.95;
+}
+
+/* Contact Details */
+.contact-details {
+  background: var(--dark-light);
+  color: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(15,23,42,.15);
+}
+
+.contact-details h3 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.contact-details p {
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+/* Responsive: stack vertically on mobile */
+@media (max-width: 768px) {
+  .verification-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-details {
+    margin-top: 30px;
+  }
 }
 
