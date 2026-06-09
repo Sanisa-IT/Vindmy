@@ -33,6 +33,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+function animateValue(id, start, end, duration) {
+  const obj = document.getElementById(id);
+  let range = end - start;
+  let stepTime = Math.abs(Math.floor(duration / range));
+  let current = start;
+  let increment = end > start ? 1 : -1;
+  let timer = setInterval(function() {
+    current += increment;
+    obj.textContent = current.toLocaleString();
+    if (current == end) {
+      clearInterval(timer);
+    }
+  }, stepTime);
+}
+
+window.onload = function() {
+  animateValue("tickets", 0, 15000000, 2000);
+  animateValue("cards", 0, 30000, 2000);
+};
 
 
 

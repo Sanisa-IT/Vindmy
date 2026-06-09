@@ -983,4 +983,74 @@ body{
         flex-direction:column;
     }
 }
+#our-impact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 40px;
+  background: #fff;
+}
+
+#our-impact .impact-image {
+  flex: 1;
+  min-width: 250px;
+}
+
+#our-impact img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+#our-impact .impact-content {
+  flex: 2;
+  padding: 20px;
+}
+
+#our-impact h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #f9c400, #ff6f00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#our-impact ul {
+  list-style: none;
+  padding: 0;
+}
+
+#our-impact li {
+  margin-bottom: 10px;
+}
+#stats-section {
+  background: #0F172A; /* dark navy */
+  color: #FFD700;      /* bold yellow */
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: #1E293B;
+  border-radius: 12px;
+  padding: 30px;
+  width: 220px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.3);
+}
+
+.stat-card h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  font-size: 1.1rem;
+  color: #fff;
+}
 
