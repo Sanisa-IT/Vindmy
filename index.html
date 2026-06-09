@@ -7,42 +7,222 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1>Vindmy</h1>
-      <p>A clean HTML, CSS, and JavaScript starter website.</p>
+  <!-- Navbar -->
+  <nav class="navbar">
+  <div class="container nav-container">
+    <div class="logo">
+      <img src="images/vindmy_logo.png" alt="Vindmy Logo">
     </div>
-  </header>
+    <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="terms.html">Ts & Cs</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="verify.html">Profile Verification</a></li>
+    </ul>
+  </div>
+</nav>
 
-  <main class="container">
-    <section class="hero">
-      <h2>Build beautiful web experiences</h2>
-      <p>Start with a responsive layout, styles, and interactive JavaScript logic.</p>
-      <button id="actionButton" class="primary-button">Click me</button>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section">
+      <div class="container">
+        <h1>Welcome to Vindmy</h1>
+        <p>
+          Experience the future of parking with our seamless, ticketless access
+          powered by license plate recognition.
+        </p>
+        <a href="#" class="cta-btn">Get Started</a>
+      </div>
     </section>
 
-    <section class="features">
-      <article>
-        <h3>Responsive</h3>
-        <p>Mobile-friendly design using modern CSS layout techniques.</p>
-      </article>
-      <article>
-        <h3>Reusable styles</h3>
-        <p>Structured CSS with clear typography and spacing rules.</p>
-      </article>
-      <article>
-        <h3>Interactive</h3>
-        <p>JavaScript hooks ready for your application logic.</p>
-      </article>
+    <!-- How It Works Section -->
+    <section class="how-it-works-section">
+      <div class="container">
+        <div class="section-header">
+          <h1>Say Hello to Parking Freedom</h1>
+          <p>
+            No tickets. No queues. Just seamless, ticketless access powered by
+            license plate recognition.
+          </p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-icon">
+              <img src="images/signup-icon.png" alt="Sign Up">
+            </div>
+            <h3>Sign Up Once</h3>
+            <p>Download the app, add your vehicle, and choose your preferred payment method.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-icon">
+              <img src="images/camera-icon.png" alt="Drive In">
+            </div>
+            <h3>Drive In & Out</h3>
+            <p>Our license plate recognition technology automatically identifies your vehicle and opens the gate.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-icon">
+              <img src="images/payment-icon.png" alt="Payments">
+            </div>
+            <h3>Automatic Payments</h3>
+            <p>Payments are processed automatically through your linked card or digital wallet.</p>
+          </div>
+        </div>
+
+        <div class="cta-section">
+          <a href="#" class="signup-btn">Sign Up Now</a>
+        </div>
+      </div>
     </section>
-  </main>
-
-  <footer class="site-footer">
+    <section class="locations-section">
     <div class="container">
-      <p>© 2026 Vindmy. Built with HTML, CSS, and JavaScript.</p>
+      <h2>Our Locations</h2>
+      <div class="locations-grid">
+        <div class="location-card">
+          <img src="images/mall-of-africa.png" alt="Mall of Africa">
+          <h3>Mall of Africa</h3>
+        </div>
+        <div class="location-card">
+          <img src="images/sandton-city.png" alt="Sandton City">
+          <h3>Sandton City</h3>
+        </div>
+        <div class="location-card">
+          <img src="images/woodlands-boulevard.png" alt="Woodlands Boulevard">
+          <h3>Woodlands Boulevard</h3>
+        </div>
+      </div>
+      
     </div>
-  </footer>
+  </section>
 
+  <!-- App Preview Section -->
+  <section class="app-section">
+    <div class="container app-grid">
+      <div class="app-image">
+        <img src="Images/home_screen_2_vindmy_2.png" alt="Vindmy App Preview">
+        <img src="images/onboarding_2_graphic.png" alt="Vindmy App Preview">
+      </div>
+      <div class="app-text">
+        <h2>Get the App and Unlock Parking Freedom</h2>
+        <p>Seamless, secure access to all Vindmy locations. No tickets. No queues. Just effortless parking and peace of mind.</p>
+        <div class="store-buttons">
+          <img src="images/googleplay.svg" alt="Google Play">
+          <img src="images/apple.svg" alt="App Store">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials-section">
+    <div class="container testimonials-grid">
+      <div class="testimonial-card">
+        <p>"So convenient. No more parking tickets that get lost. So easy to use."</p>
+        <span>★★★★★ – Annette</span>
+      </div>
+      <div class="testimonial-card">
+        <p>"The cameras pick up the car seamlessly and the booms open as they should."</p>
+        <span>★★★★★ – S Heyes</span>
+      </div>
+      <div class="testimonial-card">
+        <p>"I love the envious looks when the boom just magically opens."</p>
+        <span>★★★★★ – Carrie</span>
+      </div>
+    </div>
+  </section>
+  <!-- Statistics Section -->
+<section class="stats-section">
+  <div class="container stats-grid">
+    <div class="stat-card">
+      <img src="images/cars-parked.png" alt="Cars Parked Icon">
+      <h3>14.4m+</h3>
+      <p>Cars Parked</p>
+    </div>
+    <div class="stat-card">
+      <img src="images/locations.png" alt="Locations Icon">
+      <h3>89+</h3>
+      <p>Locations</p>
+    </div>
+    <div class="stat-card">
+      <img src="images/vehicles.png" alt="Vehicles Icon">
+      <h3>600k+</h3>
+      <p>Vehicles</p>
+    </div>
+  </div>
+</section>
+<!-- Parking Solutions Section -->
+<section class="solutions-section">
+  <div class="container">
+    <h2>Parking Solutions for Your Building</h2>
+    <p>We have the digital solutions landlords need to optimise their parking.</p>
+    <div class="solutions-grid">
+      <ul>
+        <li>✔ Ticketless paid parking</li>
+        <li>✔ Monthly parking</li>
+        <li>✔ Parking validations</li>
+        <li>✔ Marketplace for vacant bays</li>
+      </ul>
+      <ul>
+        <li>✔ Tenant and visitor parking</li>
+        <li>✔ Reporting and analytics</li>
+        <li>✔ Smart integrations</li>
+        <li>✔ Parking rewards and incentives</li>
+      </ul>
+    </div>
+    <div class="cta-section">
+      <a href="#" class="signup-btn">Find Out More</a>
+    </div>
+  </div>
+</section>
+</main>
+<!-- Footer Section -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Parking solutions</a></li>
+        <li><a href="#">In the news</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Terms & Conditions</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Legal information</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <img src="images/fb.svg" alt="Facebook">
+        <img src="images/insta.svg" alt="Instagram">
+        <img src="images/tiktok.svg" alt="TikTok">
+        <img src="images/x.svg" alt="Twitter">
+        <img src="images/linkedin.svg" alt="LinkedIn">
+      </div>
+    </div>
+  </div>
+  <div class="store-buttons">
+    <img src="images/googleplay.svg" alt="Google Play">
+    <img src="images/apple.svg" alt="App Store">
+  </div>
+  <p>© 2026 Vindmy. All rights reserved.</p>
+</footer>
+
+
+  
   <script src="js/script.js"></script>
 </body>
 </html>
