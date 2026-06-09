@@ -19,49 +19,55 @@
 /* ==========================================
    NAVBAR
 ========================================== */
-nav {
-  background-color: var(--white);
-  padding: 20px;
+nav.navbar {
+  background: var(--gradient-primary);
+  padding: 18px 24px;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08); /* subtle shadow when sticky */
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 18px rgba(15,23,42,0.08);
 }
 
 .nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .logo img {
-  height: 50px;
+  height: 48px;
   width: auto;
   display: block;
 }
 
-.navbar {
+.nav-links {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   gap: 1.5rem;
+  align-items: center;
 }
 
-.navbar li a {
+.nav-links li a {
   text-decoration: none;
-  color: var(--dark);
-  font-weight: 500;
-  transition: color 0.3s ease;
+  color: var(--white);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: color 0.25s ease, transform 0.25s ease;
 }
 
-.navbar li a:hover {
-  color: var(--accent);
+.nav-links li a:hover,
+.nav-links li a:focus-visible {
+  color: rgba(255,255,255,0.9);
+  transform: translateY(-1px);
 }
 
 .menu-toggle {
   display: none;
-  font-size: 24px;
+  font-size: 28px;
   color: var(--dark);
   cursor: pointer;
 }
@@ -72,25 +78,25 @@ nav {
     display: block;
   }
 
-  .navbar {
+  .nav-links {
     position: fixed;
     top: 0;
     left: -100%;
     height: 100%;
-    width: 250px;
+    width: 260px;
     background-color: var(--dark-light);
     flex-direction: column;
     gap: 1.5rem;
-    padding: 80px 20px;
-    transition: left 0.4s ease;
+    padding: 100px 24px 24px;
+    transition: left 0.35s ease;
   }
 
-  .navbar.active {
+  .nav-links.active {
     left: 0;
   }
 
-  .navbar li a {
-    font-size: 1.2rem;
+  .nav-links li a {
+    font-size: 1.1rem;
     color: var(--white);
   }
 }
