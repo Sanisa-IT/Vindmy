@@ -392,9 +392,11 @@ nav.navbar {
   text-align:center ;
  
 }
+
+
 .locations-grid {
   display: flex;
-  gap: 4rem;
+  gap: 3rem;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -407,7 +409,7 @@ nav.navbar {
 }
 .location-card img {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 5dvh;
   margin-bottom: 15px;
 }
 
@@ -417,12 +419,12 @@ nav.navbar {
 }
 .app-grid {
   display: flex;
-  gap: 2rem;
+  gap: 5rem;
   align-items: center;
   flex-wrap: wrap;
 }
 .app-image img {
-  max-width: 300px;
+  max-width: 220px;
 }
 .app-text {
   max-width: 500px;
@@ -867,6 +869,7 @@ body{
     grid-template-columns:1fr 1fr;
     gap:60px;
     align-items:center;
+   
 }
 
 .section-tag{
@@ -1011,21 +1014,26 @@ body{
   flex-wrap: wrap;
   align-items: center;
   gap: 40px;
-  padding: 40px;
+  padding: 50px;
   background: #fff;
 }
 
 #our-impact .impact-image,
 #our-impact .impact-content {
-  min-width: 280px;
+  min-width: 20px;
+   
+   
+
+
 }
 
 #our-impact .impact-image {
   flex: 1 1 360px;
+  
 }
 
 #our-impact .impact-image img {
-  width: 60%;
+  width: 70%;
   height: auto;
   border-radius: 16px;
   display:block;
