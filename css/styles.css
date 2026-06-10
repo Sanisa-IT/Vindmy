@@ -1028,16 +1028,17 @@ body{
   width: 60%;
   height: auto;
   border-radius: 16px;
-  display: block;
+  display:block;
+  margin: -2px auto;
 }
 
 #our-impact .impact-content {
   flex: 1 1 360px;
-  padding: 20px;
+  padding: 1px;
 }
 
 #our-impact .impact-content h2 {
-  font-size: 2em;
+  font-size: 3em;
   margin-bottom: 20px;
   background: linear-gradient(90deg, #000000, #000000);
   -webkit-background-clip: text;
@@ -1047,7 +1048,7 @@ body{
 #our-impact .impact-content p {
   color: var(--dark);
   line-height: 1.8;
-  max-width: 680px;
+  max-width: 600px;
 }
 
 #our-impact ul {
