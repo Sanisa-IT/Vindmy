@@ -231,7 +231,17 @@ nav.navbar {
   padding: 180px 20px;
 }
 .hero-section > .container {
-  opacity: 0;
+  .locations-section {
+    /* tighten top spacing so the section heading sits higher */
+    padding: clamp(1rem, 4vw, 2rem) var(--spacing-md);
+    background: var(--secondary);
+    text-align: center;
+  }
+
+  .locations-section h2 {
+    margin-top: 0;
+    margin-bottom: var(--spacing-md);
+  }
   transform: translateY(24px);
   animation: fadeInUp 1s ease-out 0.2s forwards;
 }
@@ -392,8 +402,8 @@ nav.navbar {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0,0,0,.1);
-  padding: 20px;
-  width: 500px;
+  padding: 10px;
+  width: 300px;
 }
 .location-card img {
   width: 100%;
