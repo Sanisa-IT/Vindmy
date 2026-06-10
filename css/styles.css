@@ -231,7 +231,17 @@ nav.navbar {
   padding: 180px 20px;
 }
 .hero-section > .container {
-  opacity: 0;
+  .locations-section {
+    /* tighten top spacing so the section heading sits higher */
+    padding: clamp(1rem, 4vw, 2rem) var(--spacing-md);
+    background: var(--secondary);
+    text-align: center;
+  }
+
+  .locations-section h2 {
+    margin-top: 0;
+    margin-bottom: var(--spacing-md);
+  }
   transform: translateY(24px);
   animation: fadeInUp 1s ease-out 0.2s forwards;
 }
@@ -395,7 +405,7 @@ nav.navbar {
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0,0,0,.1);
   padding: 10px;
-  width: 400px;
+  width: 300px;
 }
 .location-card img {
   width: 100%;
@@ -1026,16 +1036,17 @@ body{
   width: 70%;
   height: auto;
   border-radius: 16px;
-  display: block;
+  display:block;
+  margin: -2px auto;
 }
 
 #our-impact .impact-content {
   flex: 1 1 360px;
-  padding: 20px;
+  padding: 1px;
 }
 
 #our-impact .impact-content h2 {
-  font-size: 2em;
+  font-size: 3em;
   margin-bottom: 20px;
   background: linear-gradient(90deg, #000000, #000000);
   -webkit-background-clip: text;
@@ -1045,7 +1056,7 @@ body{
 #our-impact .impact-content p {
   color: var(--dark);
   line-height: 1.8;
-  max-width: 680px;
+  max-width: 600px;
 }
 
 #our-impact ul {
