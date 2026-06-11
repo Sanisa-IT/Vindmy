@@ -435,7 +435,7 @@ nav.navbar {
 }
 
 .testimonials-section {
-  background:#06B6D4;
+  background:#7C3AED;
   padding: 80px 20px;
 }
 .testimonials-grid {
@@ -461,7 +461,7 @@ nav.navbar {
 }
 /* Statistics Section */
 .stats-section {
-  background: #0F172A;
+  background: #7C3AED;
   color: #0228ff;
   padding: 80px 20px;
   text-align: center;
@@ -475,7 +475,7 @@ nav.navbar {
 }
 
 .stat-card {
-  background: #1E293B;
+  background: #7C3AED;
   border-radius: 12px;
   padding: 30px;
   width: 220px;
@@ -498,8 +498,8 @@ nav.navbar {
 }
 /* Solutions Section */
 .solutions-section {
-  background: #000;
-  color: #00c3ff;
+  background: #7C3AED;
+  color: #0a0a0a;
   padding: 80px 20px;
   text-align: center;
 }
@@ -565,7 +565,7 @@ nav.navbar {
    SUPPORT & QUERY FORM
 ========================================== */
 .support-section {
-  background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
+  background: linear-gradient(180deg, #F8FAFC 0%, #7C3AED 100%);
   padding: 100px 20px;
 }
 
@@ -703,7 +703,7 @@ nav.navbar {
    PROFILE VERIFICATION PAGE
 ========================================== */
 .verification-section {
-  background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
+  background: linear-gradient(180deg, #F8FAFC 0%, #7C3AED 100%);
   padding: 100px 20px;
 }
 
@@ -818,19 +818,9 @@ nav.navbar {
     margin-top: 30px;
   }
 }
-#7C3AED
 
 
-:root{
-    --primary:#2563EB;
-    --secondary:#06B6D4;
-    --accent:#7C3AED;
 
-    --dark:#0F172A;
-    --light:#F8FAFC;
-    --text:#475569;
-    --white:#FFFFFF;
-}
 
 *{
     margin:0;
