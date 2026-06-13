@@ -53,5 +53,47 @@ window.onload = function() {
   animateValue("cards", 0, 30000, 2000);
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  const deleteLink = document.getElementById("delete-account-link");
+  const deleteModal = document.getElementById("deleteModal");
+  const closeBtn = document.querySelector(".modal .close");
+  const deleteForm = document.getElementById("deleteAccountForm");
 
+  // Show modal
+  deleteLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    deleteModal.style.display = "block";
+  });
+
+  // Close modal
+  closeBtn.addEventListener("click", () => deleteModal.style.display = "none");
+  window.addEventListener("click", (e) => {
+    if (e.target === deleteModal) deleteModal.style.display = "none";
+  });
+
+  // Handle form submission
+  deleteForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("userEmail").value;
+
+    try {
+      const response = await fetch("/api/send-delete-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+
+      if (response.ok) {
+        alert("Verification link sent to your email.");
+        deleteModal.style.display = "none";
+        deleteForm.reset();
+      } else {
+        alert("Error sending verification link.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Server error.");
+    }
+  });
+});
 
