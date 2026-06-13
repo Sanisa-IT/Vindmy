@@ -59,16 +59,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.querySelector(".modal .close");
   const deleteForm = document.getElementById("deleteAccountForm");
 
-  // Show modal
+  // Show modal when footer link is clicked
   deleteLink.addEventListener("click", (e) => {
     e.preventDefault();
     deleteModal.style.display = "block";
   });
 
-  // Close modal
-  closeBtn.addEventListener("click", () => deleteModal.style.display = "none");
+  // Close modal when "X" is clicked
+  closeBtn.addEventListener("click", () => {
+    deleteModal.style.display = "none";
+  });
+
+  // Close modal when clicking outside of it
   window.addEventListener("click", (e) => {
-    if (e.target === deleteModal) deleteModal.style.display = "none";
+    if (e.target === deleteModal) {
+      deleteModal.style.display = "none";
+    }
   });
 
   // Handle form submission
@@ -91,9 +97,24 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Error sending verification link.");
       }
     } catch (err) {
-      console.error(err);
-      alert("Server error.");
+      console.error("Server error:", err);
+      alert("Server error. Please try again later.");
     }
   });
 });
+const faqItems = document.querySelectorAll('.faq-item');
 
+faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+
+    question.addEventListener('click', () => {
+
+        faqItems.forEach(faq => {
+            if(faq !== item){
+                faq.classList.remove('active');
+            }
+        });
+
+        item.classList.toggle('active');
+    });
+});

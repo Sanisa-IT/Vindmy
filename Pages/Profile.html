@@ -79,10 +79,11 @@
     <div>
       <h4>Legal</h4>
       <ul>
-        <li><a href="https://www.admyt.com/terms-conditions">Terms & Conditions</a></li>
-        <li><a href="https://www.admyt.com/privacy-policy">Privacy Policy</a></li>
+        <li><a href="https://www.iubenda.com/terms-and-conditions/86063130">Terms & Conditions</a></li>
+        <li><a href="https://www.iubenda.com/privacy-policy/86063130">Privacy Policy</a></li>
         <li><a href="https://www.admyt.com/help">Help</a></li>
         <li><a href="FAQ.html">FAQ</a></li>
+        <li><a href="#" id="delete-account-link">Delete My Account</a></li>
       </ul>
     </div>
     <div>
@@ -108,5 +109,18 @@
 </footer>
 
 <script src="../js/script.js"></script>
+<!-- Place this just before </body> -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>Request Account Deletion</h3>
+    <p>Enter the email tied to your Vindmy account ,we'll send a one-time verification link.</p>
+    <form id="deleteAccountForm">
+      <input type="email" id="userEmail" placeholder="Enter your email" required>
+      <button type="submit">Send Verification Link</button>
+    </form>
+  </div>
+</div>
+
 </body>
 </html>
