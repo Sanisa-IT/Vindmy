@@ -926,8 +926,8 @@ background:#06B6D4;
 
 .services-showcase__card {
     position: relative;
-    width: 320px;
-    height: 500px;
+    width: 200px;
+    height: 399px;
     border-radius: 25px;
     overflow: hidden;
     flex-shrink: 0;
