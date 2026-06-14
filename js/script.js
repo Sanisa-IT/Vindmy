@@ -132,3 +132,34 @@ faqItems.forEach(item => {
         item.classList.toggle('active');
     });
 });
+// Toggle sections
+document.querySelectorAll(".section-title").forEach(title => {
+    title.addEventListener("click", () => {
+        const content = title.nextElementSibling;
+        content.style.display =
+            content.style.display === "block" ? "none" : "block";
+    });
+});
+
+// Toggle answers
+document.querySelectorAll(".question-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const answer = btn.nextElementSibling;
+        answer.style.display =
+            answer.style.display === "block" ? "none" : "block";
+    });
+});
+const items = document.querySelectorAll(".section");
+
+window.addEventListener("load", () => {
+  items.forEach((item, index) => {
+    item.style.opacity = "0";
+    item.style.transform = "translateY(20px)";
+
+    setTimeout(() => {
+      item.style.transition = "0.6s ease";
+      item.style.opacity = "1";
+      item.style.transform = "translateY(0)";
+    }, index * 80);
+  });
+});
