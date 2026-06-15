@@ -221,3 +221,4 @@ window.addEventListener("load", () => {
     }, index * 80);
   });
 });
+
