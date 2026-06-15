@@ -105,7 +105,11 @@ nav.navbar {
   cursor: pointer;
   padding: 0.5rem;
   flex-direction: column;
-  gap: 1px;
+  gap: 4px;
+   border: none;
+  outline: none;
+  box-shadow: none;
+ 
 }
  .menu-toggle span{
   display: block;
