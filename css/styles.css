@@ -101,7 +101,7 @@ nav.navbar {
 .menu-toggle {
   display: none;
   font-size: 28px;
- 
+  background:#06B6D4;
   cursor: pointer;
   padding: 0.5rem;
   flex-direction: column;
@@ -111,9 +111,21 @@ nav.navbar {
   display: block;
   width: 25px;
   height: 3px;
-
-  transition: 0.3s;
+  background: var(--dark);
+  transition: transform 0.3s ease, opacity 0.3s ease;
   border-radius: 2px;
+ }
+
+ .menu-toggle.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+ }
+
+ .menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+ }
+
+ .menu-toggle.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
  }
 /* Mobile nav */
 @media (max-width: 768px) {
