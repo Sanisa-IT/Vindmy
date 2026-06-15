@@ -149,6 +149,64 @@ document.querySelectorAll(".question-btn").forEach(btn => {
             answer.style.display === "block" ? "none" : "block";
     });
 });
+
+function updateFaqSearch() {
+  const faqSearchInput = document.getElementById("faq-search");
+  const faqSearchStatus = document.getElementById("faq-search-status");
+  const faqSections = Array.from(document.querySelectorAll(".section"));
+
+  if (!faqSearchInput || !faqSearchStatus) {
+    return;
+  }
+
+  const searchTerm = faqSearchInput.value.trim().toLowerCase();
+  let totalMatches = 0;
+
+  faqSections.forEach(section => {
+    const questionButtons = Array.from(section.querySelectorAll(".question-btn"));
+    let sectionHasMatch = false;
+
+    questionButtons.forEach(btn => {
+      const answer = btn.nextElementSibling;
+      const text = `${btn.textContent} ${answer ? answer.textContent : ""}`.toLowerCase();
+      const matched = searchTerm === "" || text.includes(searchTerm);
+
+      btn.style.display = matched ? "" : "none";
+      if (answer && !matched) {
+        answer.style.display = "none";
+      }
+
+      if (matched) {
+        sectionHasMatch = true;
+        totalMatches += 1;
+      }
+    });
+
+    section.style.display = sectionHasMatch ? "" : "none";
+    const sectionContent = section.querySelector(".section-content");
+    if (sectionContent) {
+      if (searchTerm && sectionHasMatch) {
+        sectionContent.style.display = "block";
+      } else if (!searchTerm) {
+        sectionContent.style.display = "none";
+      }
+    }
+  });
+
+  if (searchTerm === "") {
+    faqSearchStatus.textContent = "Search questions by keyword";
+  } else if (totalMatches === 0) {
+    faqSearchStatus.textContent = "No matching FAQs found. Try another keyword.";
+  } else {
+    faqSearchStatus.textContent = `${totalMatches} matching question${totalMatches === 1 ? "" : "s"} shown.`;
+  }
+}
+
+const faqSearchInput = document.getElementById("faq-search");
+if (faqSearchInput) {
+  faqSearchInput.addEventListener("input", updateFaqSearch);
+}
+
 const items = document.querySelectorAll(".section");
 
 window.addEventListener("load", () => {
