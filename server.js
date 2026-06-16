@@ -7,8 +7,8 @@ app.use(express.json());
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "yourgmail@gmail.com",   // replace with your Gmail
-    pass: "your-app-password"      // use Gmail App Password
+    user: "tshegofatsoramokopu307@gmail.com",   // replace with your Gmail
+    pass: "tshego16"      // use Gmail App Password
   }
 });
 
@@ -16,11 +16,11 @@ const transporter = nodemailer.createTransport({
 app.post("/api/send-delete-link", async (req, res) => {
   const { email } = req.body;
   const token = Math.random().toString(36).substr(2);
-  const verifyUrl = `http://localhost:3000/api/verify-delete?token=${token}&email=${email}`;
+  const verifyUrl = `https://vindmy.com/api/verify-delete?token=${token}&email=${email}`;
 
   try {
     await transporter.sendMail({
-      from: "no-reply@vindmy.com",
+      from: "tshegofatsoramokopu307@gmail.com",
       to: email,
       subject: "Vindmy Account Deletion",
       text: `Click this link to confirm deletion: ${verifyUrl}`
@@ -38,8 +38,8 @@ app.get("/api/verify-delete", async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: "no-reply@vindmy.com",
-      to: "support@vindmy.com",
+      from: "tshegofatsoramokopu307@gmail.com",
+      to: "maropengprecious247@gmail.com",
       subject: "Account Deletion Request",
       text: `Please delete account for: ${email}`
     });
@@ -50,7 +50,7 @@ app.get("/api/verify-delete", async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+app.listen(3000, () => console.log("Server running on https://vindmy.com"));
 import express from "express";
 import multer from "multer";
 import { Resend } from "resend";
