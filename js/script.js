@@ -222,3 +222,127 @@ window.addEventListener("load", () => {
   });
 });
 
+const supportForm = document.getElementById("supportForm");
+
+supportForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const submitButton = supportForm.querySelector("button");
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+
+    try {
+        const formData = new FormData(supportForm);
+
+        const response = await fetch("/api/contact", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Your query has been submitted successfully.");
+            supportForm.reset();
+        } else {
+            alert(result.message || "Failed to submit query.");
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("An error occurred while submitting your query.");
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Query";
+    }
+});
+
+import express from "express";
+import multer from "multer";
+import { Resend } from "resend";
+
+const router = express.Router();
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const upload = multer({
+    storage: multer.memoryStorage()
+});
+
+router.post(
+    "/contact",
+    upload.single("attachment"),
+    async (req, res) => {
+
+        try {
+            const {
+                name,
+                email,
+                mobile,
+                category,
+                subject,
+                message
+            } = req.body;
+
+            const attachments = [];
+
+            if (req.file) {
+                attachments.push({
+                    filename: req.file.originalname,
+                    content: req.file.buffer
+                });
+            }
+
+            await resend.emails.send({
+                from: "admin@vindmy.com",
+                to: "support@vindmy.com",
+                reply_to: email,
+                subject: `[${category}] ${subject}`,
+                html: `
+                    <h2>New Support Query</h2>
+
+                    <p><strong>Name:</strong> ${name}</p>
+
+                    <p><strong>Email:</strong> ${email}</p>
+
+                    <p><strong>Mobile:</strong> ${mobile}</p>
+
+                    <p><strong>Category:</strong> ${category}</p>
+
+                    <p><strong>Subject:</strong> ${subject}</p>
+
+                    <p><strong>Message:</strong></p>
+
+                    <p>${message}</p>
+                `,
+                attachments
+            });
+
+            res.status(200).json({
+                success: true,
+                message: "Query submitted successfully."
+            });
+
+        } catch (error) {
+            console.error(error);
+
+            res.status(500).json({
+                success: false,
+                message: "Failed to submit query."
+            });
+        }
+    }
+);
+
+export default router;
+
+import express from "express";
+import contactRoutes from "./routes/contact.js";
+
+const app = express();
+
+app.use("/api", contactRoutes);
+
+app.listen(3000, () => {
+    console.log("Server running");
+});
