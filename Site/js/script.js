@@ -294,8 +294,8 @@ router.post(
             }
 
             await resend.emails.send({
-                from: "admin@vindmy.com",
-                to: "support@vindmy.com",
+                from: "tshegofatsoramokopu307@gmail.com",
+                to: "maropengprecious247@gmail.com",
                 reply_to: email,
                 subject: `[${category}] ${subject}`,
                 html: `
