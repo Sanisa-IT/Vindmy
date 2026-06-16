@@ -103,7 +103,7 @@ nav.navbar {
   display: none;
   font-size: 28px;
   background: transparent;
-  cursor: pointer;
+  
   padding: 30px;
   flex-direction: column;
   gap: 4px;
