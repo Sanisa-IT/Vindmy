@@ -4,9 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!menuToggle || !navLinks) return;
 
-  menuToggle.addEventListener("click", () => {
+  menuToggle.addEventListener("pointerup", () => {
     navLinks.classList.toggle("active");
     menuToggle.classList.toggle("active");
+    console.log("Hamburger tapped!");
   });
 
   document.querySelectorAll("#nav-links a").forEach(link => {
