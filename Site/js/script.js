@@ -1,35 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.getElementById("menu-toggle");
   const navLinks = document.getElementById("nav-links");
-  const navItems = navLinks ? navLinks.querySelectorAll("a") : [];
 
-  if (menuToggle && navLinks) {
-    menuToggle.addEventListener("click", () => {
-      const isActive = navLinks.classList.toggle("active");
-      menuToggle.classList.toggle("active", isActive);
-      menuToggle.setAttribute("aria-expanded", String(isActive));
-    });
+  if (!menuToggle || !navLinks) return;
 
-    navItems.forEach((link) => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("active");
-        menuToggle.classList.remove("active");
-        menuToggle.setAttribute("aria-expanded", "false");
-      });
-    });
+  menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+    menuToggle.classList.toggle("active");
+  });
 
-    document.addEventListener("click", (event) => {
-      if (
-        navLinks.classList.contains("active") &&
-        !navLinks.contains(event.target) &&
-        !menuToggle.contains(event.target)
-      ) {
-        navLinks.classList.remove("active");
-        menuToggle.classList.remove("active");
-        menuToggle.setAttribute("aria-expanded", "false");
-      }
+  document.querySelectorAll("#nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("active");
+      menuToggle.classList.remove("active");
     });
-  }
+  });
+});
 
   const ctaBtn = document.querySelector(".cta-btn");
   if (ctaBtn) {
@@ -46,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Redirecting to Sign Up page...");
     });
   }
-});
+
 function animateValue(id, start, end, duration) {
   const obj = document.getElementById(id);
   let range = end - start;
@@ -257,92 +243,3 @@ supportForm.addEventListener("submit", async (e) => {
     }
 });
 
-import express from "express";
-import multer from "multer";
-import { Resend } from "resend";
-
-const router = express.Router();
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-const upload = multer({
-    storage: multer.memoryStorage()
-});
-
-router.post(
-    "/contact",
-    upload.single("attachment"),
-    async (req, res) => {
-
-        try {
-            const {
-                name,
-                email,
-                mobile,
-                category,
-                subject,
-                message
-            } = req.body;
-
-            const attachments = [];
-
-            if (req.file) {
-                attachments.push({
-                    filename: req.file.originalname,
-                    content: req.file.buffer
-                });
-            }
-
-            await resend.emails.send({
-                from: "tshegofatsoramokopu307@gmail.com",
-                to: "maropengprecious247@gmail.com",
-                reply_to: email,
-                subject: `[${category}] ${subject}`,
-                html: `
-                    <h2>New Support Query</h2>
-
-                    <p><strong>Name:</strong> ${name}</p>
-
-                    <p><strong>Email:</strong> ${email}</p>
-
-                    <p><strong>Mobile:</strong> ${mobile}</p>
-
-                    <p><strong>Category:</strong> ${category}</p>
-
-                    <p><strong>Subject:</strong> ${subject}</p>
-
-                    <p><strong>Message:</strong></p>
-
-                    <p>${message}</p>
-                `,
-                attachments
-            });
-
-            res.status(200).json({
-                success: true,
-                message: "Query submitted successfully."
-            });
-
-        } catch (error) {
-            console.error(error);
-
-            res.status(500).json({
-                success: false,
-                message: "Failed to submit query."
-            });
-        }
-    }
-);
-
-export default router;
-
-import express from "express";
-import contactRoutes from "./routes/contact.js";
-
-const app = express();
-
-app.use("/api", contactRoutes);
-
-app.listen(3000, () => {
-    console.log("Server running");
-});

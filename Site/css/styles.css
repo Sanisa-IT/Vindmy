@@ -98,6 +98,7 @@ nav.navbar {
   transform: translateY(-1px);
 }
 
+/* MENU BUTTON (DESKTOP DEFAULT) */
 .menu-toggle {
   display: none;
   font-size: 28px;
@@ -106,34 +107,35 @@ nav.navbar {
   padding: 30px;
   flex-direction: column;
   gap: 4px;
-   border: none;
+  border: none;
   outline: none;
   box-shadow: none;
- 
- 
 }
- .menu-toggle span{
+
+.menu-toggle span {
   display: block;
   width: 25px;
   height: 3px;
   background: var(--dark);
   transition: transform 0.3s ease, opacity 0.3s ease;
   border-radius: 2px;
- }
+}
 
- .menu-toggle.active span:nth-child(1) {
+/* ANIMATION WHEN ACTIVE */
+.menu-toggle.active span:nth-child(1) {
   transform: translateY(8px) rotate(45deg);
- }
+}
 
- .menu-toggle.active span:nth-child(2) {
+.menu-toggle.active span:nth-child(2) {
   opacity: 0;
- }
+}
 
- .menu-toggle.active span:nth-child(3) {
+.menu-toggle.active span:nth-child(3) {
   transform: translateY(-8px) rotate(-45deg);
- }
-/* Mobile nav */
+}
+
 @media (max-width: 768px) {
+
   .menu-toggle {
     display: flex;
   }
@@ -168,6 +170,7 @@ nav.navbar {
     padding: 10px 0;
   }
 }
+
 
 @media (max-width: 1024px) {
   .solutions-grid,
