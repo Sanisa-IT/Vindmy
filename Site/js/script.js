@@ -243,4 +243,89 @@ supportForm.addEventListener("submit", async (e) => {
         submitButton.textContent = "Submit Query";
     }
 });
+document.addEventListener("DOMContentLoaded", () => {
 
+  const form = document.getElementById("supportForm");
+
+  if (!form) return;
+
+  /* ==============================
+     AUTO-FILL FROM URL
+  ============================== */
+  const params = new URLSearchParams(window.location.search);
+
+  const name = params.get("name");
+  const surname = params.get("surname");
+  const email = params.get("email");
+  const category = params.get("category");
+  const subject = params.get("subject");
+  const alias = params.get("alias");
+
+  if (name || surname) {
+    document.getElementById("name").value =
+      `${name || ""} ${surname || ""}`.trim();
+  }
+
+  if (email) {
+    document.getElementById("email").value = email;
+  }
+
+  if (category) {
+    document.getElementById("category").value = category;
+  }
+
+  if (subject || alias) {
+    document.getElementById("subject").value =
+      subject || `Support - ${alias}`;
+  }
+
+  /* ==============================
+     FORM SUBMIT (ONLY ONCE)
+  ============================== */
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const submitButton = document.getElementById("submitButton");
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+
+    const formData = new FormData();
+
+    formData.append("name", document.getElementById("name").value);
+    formData.append("email", document.getElementById("email").value);
+    formData.append("mobile", document.getElementById("mobile").value);
+    formData.append("category", document.getElementById("category").value);
+    formData.append("subject", document.getElementById("subject").value);
+    formData.append("message", document.getElementById("message").value);
+
+    const fileInput = document.getElementById("attachment");
+
+    if (fileInput && fileInput.files.length > 0) {
+      formData.append("attachment", fileInput.files[0]);
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/support", {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("Support request sent successfully.");
+        form.reset();
+      } else {
+        alert(result.message || "Failed to send request.");
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while submitting your query.");
+    }
+
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit Query";
+  });
+
+});
