@@ -60,8 +60,8 @@ app.post("/support", upload.single("attachment"), async (req, res) => {
        SEND EMAIL VIA RESEND
     ------------------------- */
     const response = await resend.emails.send({
-      from: "Vindmy Support <onboarding@resend.dev>",
-      to: ["maropengprecious247@gmail.com"], // YOUR ADMIN EMAIL
+      from: "Vindmy <onboarding@resend.dev>",
+      to: ["hi@sanisa.co.za"], // YOUR ADMIN EMAIL
       replyTo: email,
       subject: `[${category}] ${subject}`,
       html: `
@@ -80,7 +80,11 @@ app.post("/support", upload.single("attachment"), async (req, res) => {
       attachments
     });
 
-    console.log("✅ Email sent successfully:", response);
+   if (response.error) {
+  console.log("❌ Email failed:", response.error.message);
+} else {
+  console.log("✅ Email sent:", response);
+}
 
     /* -------------------------
        SUCCESS RESPONSE
