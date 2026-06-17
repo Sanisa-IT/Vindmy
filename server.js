@@ -60,7 +60,7 @@ app.post("/support", upload.single("attachment"), async (req, res) => {
        SEND EMAIL VIA RESEND
     ------------------------- */
     const response = await resend.emails.send({
-      from: "Vindmy <onboarding@resend.dev>",
+      from: "Vindmy Support <support@vindmy.com>",
       to: ["hi@sanisa.co.za"], // YOUR ADMIN EMAIL
       replyTo: email,
       subject: `[${category}] ${subject}`,
