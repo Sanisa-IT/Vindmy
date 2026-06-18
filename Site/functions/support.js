@@ -51,9 +51,3 @@ export async function onRequestPost(context) {
 }
 
 }
-if (!response.ok) {
-  return Response.json(
-    { error: "Failed to send email" },
-    { status: 500 }
-  );
-}
