@@ -56,10 +56,10 @@
     <!-- Right: Contact Details -->
     <div class="contact-details">
       <h3>Need Help?</h3>
-      <p><strong>Phone:</strong> ***********</p>
-      <p><strong>Email:</strong> naidoo.shaldon@gmail.com</p>
-      <p><strong>Address:</strong> Steyn City, Johannesburg, Gauteng, 2191, South Africa</p>
-      <p>Available Mon–Fri, 9 AM – 5 PM.</p>
+      <p><strong>Email:</strong> info@vindmy.com</p>
+      <p><strong>Address:</strong> 25 Parkland lane Riverglen , Gauteng, 2191, South Africa</p>
+      <p>We’re available Mon–Fri, 9 AM – 5 PM.</p>
+    </div>
     </div>
 
   </div>
@@ -80,11 +80,10 @@
     <div>
       <h4>Legal</h4>
       <ul>
-        <li><a href="https://www.iubenda.com/terms-and-conditions/86063130">Terms & Conditions</a></li>
-        <li><a href="https://www.iubenda.com/privacy-policy/86063130">Privacy Policy</a></li>
+        <li><a href="#" onclick="openTerms()">Terms & Conditions</a></li>
+        <li><a href="#" onclick="openPolicy()">Privacy Policy</a></li>
         <li><a href="../Pages/Contact.html">Help</a></li>
-       
-        <li><a href="#" id="delete-account-link">Delete My Account</a></li>
+        <li><a href="../Pages/DeleteAccount.html ">Delete My Account</a></li>
       </ul>
     </div>
     <div>
@@ -108,20 +107,20 @@
 
   <p>© 2026 Vindmy. All rights reserved.</p>
 </footer>
+<div id="legalModal" class="legal-modal">
+  <div class="legal-content">
+    <span class="close-btn" onclick="closeLegal()">&times;</span>
 
-<script src="../js/script.js"></script>
-<!-- Place this just before </body> -->
-<div id="deleteModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h3>Request Account Deletion</h3>
-    <p>Enter the email tied to your Vindmy account ,we'll send a one-time verification link.</p>
-    <form id="deleteAccountForm">
-      <input type="email" id="userEmail" placeholder="Enter your email" required>
-      <button type="submit">Send Verification Link</button>
-    </form>
+    <iframe
+      id="legalFrame"
+      src=""
+      width="100%"
+      height="600"
+      frameborder="0">
+    </iframe>
   </div>
 </div>
+<script src="../js/script.js"></script>
 
 </body>
 </html>

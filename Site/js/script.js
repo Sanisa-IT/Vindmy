@@ -54,55 +54,7 @@ window.onload = function() {
   animateValue("cards", 0, 30000, 2000);
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  const deleteLink = document.getElementById("delete-account-link");
-  const deleteModal = document.getElementById("deleteModal");
-  const closeBtn = document.querySelector(".modal .close");
-  const deleteForm = document.getElementById("deleteAccountForm");
 
-  // Show modal when footer link is clicked
-  deleteLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    deleteModal.style.display = "block";
-  });
-
-  // Close modal when "X" is clicked
-  closeBtn.addEventListener("click", () => {
-    deleteModal.style.display = "none";
-  });
-
-  // Close modal when clicking outside of it
-  window.addEventListener("click", (e) => {
-    if (e.target === deleteModal) {
-      deleteModal.style.display = "none";
-    }
-  });
-
-  // Handle form submission
-  deleteForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("userEmail").value;
-
-    try {
-      const response = await fetch("/api/send-delete-link", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
-      });
-
-      if (response.ok) {
-        alert("Verification link sent to your email.");
-        deleteModal.style.display = "none";
-        deleteForm.reset();
-      } else {
-        alert("Error sending verification link.");
-      }
-    } catch (err) {
-      console.error("Server error:", err);
-      alert("Server error. Please try again later.");
-    }
-  });
-});
 const faqItems = document.querySelectorAll('.faq-item');
 
 faqItems.forEach(item => {
@@ -329,3 +281,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+function openTerms() {
+  document.getElementById("legalFrame").src =
+    "https://www.iubenda.com/terms-and-conditions/86063130";
+
+  document.getElementById("legalModal").style.display = "block";
+}
+
+function openPolicy() {
+  document.getElementById("legalFrame").src =
+    "https://www.iubenda.com/privacy-policy/86063130";
+
+  document.getElementById("legalModal").style.display = "block";
+}
+
+function closeLegal() {
+  document.getElementById("legalModal").style.display = "none";
+  document.getElementById("legalFrame").src = "";
+
+}
