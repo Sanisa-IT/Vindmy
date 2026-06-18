@@ -14,11 +14,19 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         from: "noreply@vindmy.com",
         to: ["support@vindmy.com"],
-        subject: "New Support Request",
+        reply_to: body.email,
+        subject: `[${body.category}] ${body.subject}`,
         html: `
           <h2>Support Request</h2>
+
           <p><b>Name:</b> ${body.name}</p>
           <p><b>Email:</b> ${body.email}</p>
+          <p><b>Mobile:</b> ${body.mobile}</p>
+          <p><b>Category:</b> ${body.category}</p>
+          <p><b>Subject:</b> ${body.subject}</p>
+
+          <hr>
+
           <p><b>Message:</b></p>
           <p>${body.message}</p>
         `
@@ -29,4 +37,23 @@ export async function onRequestPost(context) {
   const data = await response.json();
 
   return Response.json(data);
+
+  if (
+  !body.name ||
+  !body.email ||
+  !body.subject ||
+  !body.message
+) {
+  return Response.json(
+    { error: "Missing required fields" },
+    { status: 400 }
+  );
+}
+
+}
+if (!response.ok) {
+  return Response.json(
+    { error: "Failed to send email" },
+    { status: 500 }
+  );
 }

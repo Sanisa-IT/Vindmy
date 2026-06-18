@@ -234,51 +234,49 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==============================
      FORM SUBMIT (ONLY ONCE)
   ============================== */
-  form.addEventListener("submit", async (e) => {
+  
+document.getElementById("supportForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const submitButton = document.getElementById("submitButton");
+
     submitButton.disabled = true;
     submitButton.textContent = "Sending...";
 
-    const formData = new FormData();
-
-    formData.append("name", document.getElementById("name").value);
-    formData.append("email", document.getElementById("email").value);
-    formData.append("mobile", document.getElementById("mobile").value);
-    formData.append("category", document.getElementById("category").value);
-    formData.append("subject", document.getElementById("subject").value);
-    formData.append("message", document.getElementById("message").value);
-
-    const fileInput = document.getElementById("attachment");
-
-    if (fileInput && fileInput.files.length > 0) {
-      formData.append("attachment", fileInput.files[0]);
-    }
-
     try {
-      const response = await fetch("http://localhost:3000/support", {
-        method: "POST",
-        body: formData
-      });
+        const response = await fetch("/support", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                mobile: document.getElementById("mobile").value,
+                category: document.getElementById("category").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value
+            })
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
-      if (response.ok) {
-        alert("Support request sent successfully.");
-        form.reset();
-      } else {
-        alert(result.message || "Failed to send request.");
-      }
-
+        if (response.ok) {
+            alert("Your query has been submitted successfully.");
+            document.getElementById("supportForm").reset();
+        } else {
+            alert("Failed to submit query.");
+            console.error(result);
+        }
     } catch (error) {
-      console.error(error);
-      alert("An error occurred while submitting your query.");
+        console.error(error);
+        alert("An error occurred while sending your query.");
     }
 
     submitButton.disabled = false;
     submitButton.textContent = "Submit Query";
-  });
+});
+
 
 });
 function openTerms() {
