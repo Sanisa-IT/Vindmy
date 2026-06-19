@@ -276,6 +276,11 @@ document.getElementById("verificationForm")
 
     e.preventDefault();
 
+     const submitBtn = document.getElementById("submitBtn");
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
     const response = await fetch("/verification", {
       method: "POST",
       headers: {
@@ -299,6 +304,9 @@ document.getElementById("verificationForm")
     } else {
       alert("Failed to submit verification request.");
     }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit Verification";
 });
 
 
