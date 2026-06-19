@@ -271,7 +271,7 @@ document.getElementById("supportForm").addEventListener("submit", async (e) => {
 });
 
 
-document.getElementById("verificationForm").addEventListener("submit", async (e) => {
+document.getElementById("verificationForm").addEventListener("submitBtn", async (e) => {
 
     e.preventDefault();
 
