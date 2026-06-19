@@ -271,6 +271,37 @@ document.getElementById("supportForm").addEventListener("submit", async (e) => {
 });
 
 
+document.getElementById("verificationForm")
+  .addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const response = await fetch("/verification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: document.getElementById("name").value,
+        surname: document.getElementById("surname").value,
+        email: document.getElementById("email").value,
+        mobile: document.getElementById("mobile").value,
+        alias: document.getElementById("alias").value,
+        vindmyTag: document.getElementById("vindmyTag").value,
+        identity: document.getElementById("identity").value,
+        business: document.getElementById("business").value
+      })
+    });
+
+    if (response.ok) {
+      alert("Verification request submitted successfully.");
+      document.getElementById("verificationForm").reset();
+    } else {
+      alert("Failed to submit verification request.");
+    }
+});
+
+
 });
 function openTerms() {
   document.getElementById("legalFrame").src =
