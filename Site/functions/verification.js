@@ -7,14 +7,6 @@ export async function onRequestPost(context) {
 
   console.log(body);
 
-}
-
-
-export async function onRequestPost(context) {
-  const { request, env } = context;
-
-  const body = await request.json();
-
   const response = await fetch(
     "https://api.resend.com/emails",
     {
