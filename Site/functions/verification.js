@@ -7,7 +7,7 @@ export async function onRequestPost(context) {
 
   console.log(body);
 
-
+}
 
 
 export async function onRequestPost(context) {
@@ -53,5 +53,4 @@ export async function onRequestPost(context) {
   const data = await response.json();
 
   return Response.json(data);
-}
 }
