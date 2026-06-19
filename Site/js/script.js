@@ -274,6 +274,8 @@ document.getElementById("supportForm").addEventListener("submit", async (e) => {
 document.getElementById("verificationForm")
   .addEventListener("submit", async (e) => {
 
+    console.log("Verification form submitted");
+
     e.preventDefault();
 
      const submitBtn = document.getElementById("submitBtn");
