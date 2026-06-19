@@ -924,7 +924,7 @@ background:#06B6D4;
 ========================================== */
 
 body.delete-page {
-  background: rgb(231, 222, 245) ;
+  background: rgb(231, 222, 245) !important;
 }
 
 /* Center content */
