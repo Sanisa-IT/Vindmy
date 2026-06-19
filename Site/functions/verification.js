@@ -13,25 +13,26 @@ export async function onRequestPost(context) {
       },
       body: JSON.stringify({
         from: "noreply@vindmy.com",
-        to: ["support@vindmy.com"],
+        to: ["admin@vindmy.com"],
         reply_to: body.email,
-        subject: `[${body.category}] ${body.subject}`,
+        subject: `Profile Verification Request - ${body.alias}`,
         html: `
-          <h2>Support Request</h2>
+          <h2>Profile Verification Request</h2>
 
           <p><b>Name:</b> ${body.name}</p>
           <p><b>Surname:</b> ${body.surname}</p>
           <p><b>Email:</b> ${body.email}</p>
           <p><b>Mobile:</b> ${body.mobile}</p>
-          <p><b>Category:</b> ${body.category}</p>
-          <p><b>Subject:</b> ${body.subject}</p>
           <p><b>Alias:</b> ${body.alias}</p>
           <p><b>Vindmy Tag:</b> ${body.vindmyTag}</p>
 
           <hr>
 
-          <p><b>Message:</b></p>
-          <p>${body.message}</p>
+          <p><b>Identity Verification Request:</b></p>
+          <p>${body.identity}</p>
+
+          <p><b>Business Verification Request:</b></p>
+          <p>${body.business}</p>
         `
       })
     }
@@ -40,20 +41,4 @@ export async function onRequestPost(context) {
   const data = await response.json();
 
   return Response.json(data);
-
-  if (
-  !body.name ||
-  !body.surname ||
-  !body.email ||
-  !body.subject ||
-  !body.message ||
-  !body.alias ||
-  !body.vindmyTag
-) {
-  return Response.json(
-    { error: "Missing required fields" },
-    { status: 400 }
-  );
-}
-
 }
