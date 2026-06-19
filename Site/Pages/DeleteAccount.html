@@ -6,7 +6,7 @@
   <title>Vindmy Website</title>
   <link rel="stylesheet" href="../css/styles.css" />
 </head>
-<body>
+<body class="delete-page">
 
   <nav class="navbar">
   <div class="container nav-container">
@@ -27,8 +27,8 @@
     </ul>
   </div>
 </nav>
-
- <main class="delete-account-page">
+<main class="delete-wrapper">
+  <div class="delete-container">
     <h1>How to Delete Your Account</h1>
     <p>You can permanently delete your account and associated personal data by following these steps:</p>
 
@@ -69,9 +69,8 @@
       <li>Email: <a href="mailto:support@vindmy.com">support@vindmy.com</a></li>
       <li>Website contact form</li>
     </ul>
-  </main>
-
-
+    </div>
+</main>
 
 </body>
 </html>
@@ -92,11 +91,10 @@
     <div>
       <h4>Legal</h4>
       <ul>
-        <li><a href="https://www.iubenda.com/terms-and-conditions/86063130">Terms & Conditions</a></li>
-        <li><a href="https://www.iubenda.com/privacy-policy/86063130">Privacy Policy</a></li>
-       <li><a href="../Pages/FAQ.html">Help</a></li>
-       
-        <li><a href="#">Delete My Account</a></li>
+        <li><a href="#" onclick="openTerms()">Terms & Conditions</a></li>
+        <li><a href="#" onclick="openPolicy()">Privacy Policy</a></li>
+       <li><a href="../Pages/Contact.html">Help</a></li>
+        <li><a href="../Pages/DeleteAccount.html" >Delete My Account</a></li>
       </ul>
     </div>
     <div>

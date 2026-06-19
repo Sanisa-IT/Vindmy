@@ -917,37 +917,108 @@ background:#06B6D4;
         text-align: center;
     }
 }
-.delete-account-page {
-  background: #fff;
-  min-height: 100vh;
-  padding: 40px;
+
+/* Delete Account Page */
+/* ==========================================
+   DELETE ACCOUNT PAGE
+========================================== */
+
+body.delete-page {
+  background: rgb(231, 222, 245)
 }
 
+/* Center content */
+.delete-wrapper {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
 
-.delete-account-page h1 {
+/* Main card */
+.delete-container {
+  width: 100%;
+  max-width: 900px;
+
+  background: #ffffff;
+
+  padding: 50px;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.08),
+    0 4px 10px rgba(0, 0, 0, 0.05);
+
+  border: 1px solid #e5e7eb;
+}
+
+/* Headings */
+.delete-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
   color: #7C3AED;
-  margin-bottom: 20px;
+  font-size: 2.5rem;
 }
 
-.delete-account-page h2 {
+.delete-container h2 {
   margin-top: 30px;
-  color: #070606;
+  margin-bottom: 15px;
+  color: #06B6D4;
+  font-size: 1.3rem;
 }
 
-.delete-account-page p,
-.delete-account-page li {
-  font-size: 15px;
-  line-height: 1.6;
-  color: #555;
+/* Paragraphs */
+.delete-container p {
+  margin-bottom: 15px;
+  line-height: 1.8;
+  color: #0a0a0a;
 }
 
-.delete-account-page ol,
-.delete-account-page ul {
-  margin-left: 30px;
+/* Lists */
+.delete-container ul,
+.delete-container ol {
+  margin-left: 25px;
   margin-bottom: 20px;
 }
 
+.delete-container li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+  color: #020202;
+}
 
+/* Links */
+.delete-container a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.delete-container a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .delete-wrapper {
+    padding: 30px 15px;
+  }
+
+  .delete-container {
+    padding: 25px;
+    border-radius: 15px;
+  }
+
+  .delete-container h1 {
+    font-size: 2rem;
+  }
+
+  .delete-container h2 {
+    font-size: 1.15rem;
+  }
+}
 /* =========================
    HEADER (LEFT ALIGNED)
 ========================= */
