@@ -111,3 +111,20 @@ app.post("/support", upload.single("attachment"), async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+
+    const name = params.get("name");
+    const surname = params.get("surname");
+    const email = params.get("email");
+    const mobile = params.get("mobile");
+    const alias = params.get("alias");
+    const vindmyTag = params.get("vindmyTag");
+    if (name) document.getElementById("name").value = name;
+    if (surname) document.getElementById("surname").value = surname;
+    if (email) document.getElementById("email").value = email;
+    if (mobile) document.getElementById("mobile").value = mobile;
+    if (alias) document.getElementById("alias").value = alias;
+    if (vindmyTag) document.getElementById("vindmyTag").value = vindmyTag;
+});
