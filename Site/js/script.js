@@ -161,7 +161,7 @@ window.addEventListener("load", () => {
   });
 });
 
-/*const supportForm = document.getElementById("supportForm");
+const supportForm = document.getElementById("supportForm");
 
 supportForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -199,9 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("supportForm");
 
-  if (!form) return; */
+  if (!form) return;
 
-  /* ==============================
+ }); /* ==============================
      AUTO-FILL FROM URL
   ============================== */
   document.addEventListener("DOMContentLoaded", () => {
@@ -309,7 +309,7 @@ document.getElementById("verificationForm").addEventListener("submit", async (e)
 });
 
 
-});
+
 function openTerms() {
   document.getElementById("legalFrame").src =
     "https://www.iubenda.com/terms-and-conditions/86063130";
