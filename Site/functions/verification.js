@@ -1,4 +1,16 @@
 export async function onRequestPost(context) {
+  console.log("VERIFICATION FUNCTION HIT");
+
+  const { request, env } = context;
+
+  const body = await request.json();
+
+  console.log(body);
+
+
+
+
+export async function onRequestPost(context) {
   const { request, env } = context;
 
   const body = await request.json();
@@ -41,4 +53,5 @@ export async function onRequestPost(context) {
   const data = await response.json();
 
   return Response.json(data);
+}
 }
