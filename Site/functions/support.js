@@ -20,10 +20,13 @@ export async function onRequestPost(context) {
           <h2>Support Request</h2>
 
           <p><b>Name:</b> ${body.name}</p>
+          <p><b>Surname:</b> ${body.surname}</p>
           <p><b>Email:</b> ${body.email}</p>
           <p><b>Mobile:</b> ${body.mobile}</p>
           <p><b>Category:</b> ${body.category}</p>
           <p><b>Subject:</b> ${body.subject}</p>
+          <p><b>Alias:</b> ${body.alias}</p>
+          <p><b>Vindmy Tag:</b> ${body.vindmyTag}</p>
 
           <hr>
 
@@ -40,9 +43,12 @@ export async function onRequestPost(context) {
 
   if (
   !body.name ||
+  !body.surname ||
   !body.email ||
   !body.subject ||
-  !body.message
+  !body.message ||
+  !body.alias ||
+  !body.vindmyTag
 ) {
   return Response.json(
     { error: "Missing required fields" },

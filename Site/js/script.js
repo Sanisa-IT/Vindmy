@@ -204,32 +204,22 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==============================
      AUTO-FILL FROM URL
   ============================== */
-  const params = new URLSearchParams(window.location.search);
+  document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
 
-  const name = params.get("name");
-  const surname = params.get("surname");
-  const email = params.get("email");
-  const category = params.get("category");
-  const subject = params.get("subject");
-  const alias = params.get("alias");
-
-  if (name || surname) {
-    document.getElementById("name").value =
-      `${name || ""} ${surname || ""}`.trim();
-  }
-
-  if (email) {
-    document.getElementById("email").value = email;
-  }
-
-  if (category) {
-    document.getElementById("category").value = category;
-  }
-
-  if (subject || alias) {
-    document.getElementById("subject").value =
-      subject || `Support - ${alias}`;
-  }
+    const name = params.get("name");
+    const surname = params.get("surname");
+    const email = params.get("email");
+    const mobile = params.get("mobile");
+    const alias = params.get("alias");
+    const vindmyTag = params.get("vindmyTag");
+    if (name) document.getElementById("name").value = name;
+    if (surname) document.getElementById("surname").value = surname;
+    if (email) document.getElementById("email").value = email;
+    if (mobile) document.getElementById("mobile").value = mobile;
+    if (alias) document.getElementById("alias").value = alias;
+    if (vindmyTag) document.getElementById("vindmyTag").value = vindmyTag;
+});
 
   /* ==============================
      FORM SUBMIT (ONLY ONCE)
@@ -251,8 +241,11 @@ document.getElementById("supportForm").addEventListener("submit", async (e) => {
             },
             body: JSON.stringify({
                 name: document.getElementById("name").value,
+                surname: document.getElementById("surname").value,
                 email: document.getElementById("email").value,
                 mobile: document.getElementById("mobile").value,
+                alias: document.getElementById("alias").value,
+                vindmyTag: document.getElementById("vindmyTag").value,
                 category: document.getElementById("category").value,
                 subject: document.getElementById("subject").value,
                 message: document.getElementById("message").value
