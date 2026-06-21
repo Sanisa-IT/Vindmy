@@ -1,11 +1,7 @@
 export async function onRequestPost(context) {
-  console.log("VERIFICATION FUNCTION HIT");
-
   const { request, env } = context;
 
   const body = await request.json();
-
-  console.log(body);
 
   const response = await fetch(
     "https://api.resend.com/emails",
@@ -17,11 +13,10 @@ export async function onRequestPost(context) {
       },
       body: JSON.stringify({
         from: "noreply@vindmy.com",
-        to: ["admin@vindmy.com"],
+        to: ["support@vindmy.com"],
         reply_to: body.email,
-        subject: `Profile Verification Request - ${body.alias}`,
         html: `
-          <h2>Profile Verification Request</h2>
+          <h2>Verification Request</h2>
 
           <p><b>Name:</b> ${body.name}</p>
           <p><b>Surname:</b> ${body.surname}</p>
@@ -31,7 +26,6 @@ export async function onRequestPost(context) {
           <p><b>Vindmy Tag:</b> ${body.vindmyTag}</p>
 
           <hr>
-
           <p><b>Identity Verification Request:</b></p>
           <p>${body.identity}</p>
 
@@ -45,4 +39,20 @@ export async function onRequestPost(context) {
   const data = await response.json();
 
   return Response.json(data);
+
+  if (
+  !body.name ||
+  !body.surname ||
+  !body.email ||
+  !body.message ||
+  !body.alias ||
+  !body.vindmyTag ||
+  !body.identity ||
+  !body.business
+) {
+  return Response.json(
+    { error: "Missing required fields" },
+    { status: 400 }
+  );
+}
 }

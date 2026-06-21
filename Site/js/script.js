@@ -272,43 +272,48 @@ document.getElementById("supportForm").addEventListener("submit", async (e) => {
 
 
 document.getElementById("verificationForm").addEventListener("submit", async (e) => {
-
     e.preventDefault();
 
-     const submitBtn = document.getElementById("submitBtn");
+    const submitButton = document.getElementById("submitBtn");
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Sending...";
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
 
-    const response = await fetch("/verification", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: document.getElementById("name").value,
-        surname: document.getElementById("surname").value,
-        email: document.getElementById("email").value,
-        mobile: document.getElementById("mobile").value,
-        alias: document.getElementById("alias").value,
-        vindmyTag: document.getElementById("vindmyTag").value,
-        identity: document.getElementById("identity").value,
-        business: document.getElementById("business").value
-      })
-    });
+    try {
+        const response = await fetch("/verification", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: document.getElementById("name").value,
+                surname: document.getElementById("surname").value,
+                email: document.getElementById("email").value,
+                mobile: document.getElementById("mobile").value,
+                alias: document.getElementById("alias").value,
+                vindmyTag: document.getElementById("vindmyTag").value,
+                identity: document.getElementById("identity").value,
+                business: document.getElementById("business").value
+            })
+        });
 
-    if (response.ok) {
-      alert("Verification request submitted successfully.");
-      document.getElementById("verificationForm").reset();
-    } else {
-      alert("Failed to submit verification request.");
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Your verification request has been submitted successfully.");
+            document.getElementById("verificationForm").reset();
+        } else {
+            alert("Failed to submit verification request.");
+            console.error(result);
+        }
+    } catch (error) {
+        console.error(error);
+        alert("An error occurred while sending your verification request.");
     }
 
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Submit Verification";
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit Verification";
 });
-
-
 
 function openTerms() {
   document.getElementById("legalFrame").src =
