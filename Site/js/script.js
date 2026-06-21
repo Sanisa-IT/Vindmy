@@ -161,47 +161,47 @@ window.addEventListener("load", () => {
   });
 });
 
-const supportForm = document.getElementById("supportForm");
+document.addEventListener("DOMContentLoaded", () => {
+  const supportForm = document.getElementById("supportForm");
 
-supportForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  if (supportForm) {
+    supportForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const submitButton = supportForm.querySelector("#submitButton") || supportForm.querySelector("button");
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+      }
 
-    const submitButton = supportForm.querySelector("button");
-    submitButton.disabled = true;
-    submitButton.textContent = "Sending...";
-
-    try {
+      try {
         const formData = new FormData(supportForm);
 
         const response = await fetch("/api/contact", {
-            method: "POST",
-            body: formData
+          method: "POST",
+          body: formData
         });
 
         const result = await response.json();
 
         if (response.ok) {
-            alert("Your query has been submitted successfully.");
-            supportForm.reset();
+          alert("Your query has been submitted successfully.");
+          supportForm.reset();
         } else {
-            alert(result.message || "Failed to submit query.");
+          alert(result.message || "Failed to submit query.");
         }
-
-    } catch (error) {
+      } catch (error) {
         console.error(error);
         alert("An error occurred while submitting your query.");
-    } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit Query";
-    }
-});
-document.addEventListener("DOMContentLoaded", () => {
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Query";
+        }
+      }
+    });
+  }
 
-  const form = document.getElementById("supportForm");
-
-  if (!form) return;
-
- }); /* ==============================
+}); /* ==============================
      AUTO-FILL FROM URL
   ============================== */
   document.addEventListener("DOMContentLoaded", () => {
@@ -225,101 +225,112 @@ document.addEventListener("DOMContentLoaded", () => {
      FORM SUBMIT (ONLY ONCE)
   ============================== */
   
-document.getElementById("supportForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  const supportFormJson = document.getElementById("supportForm");
 
-    const submitButton = document.getElementById("submitButton");
+  if (supportFormJson) {
+    supportFormJson.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    submitButton.disabled = true;
-    submitButton.textContent = "Sending...";
+      const submitButton = document.getElementById("submitButton") || supportFormJson.querySelector("button");
 
-    try {
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+      }
+
+      try {
         const response = await fetch("/support", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name: document.getElementById("name").value,
-                surname: document.getElementById("surname").value,
-                email: document.getElementById("email").value,
-                mobile: document.getElementById("mobile").value,
-                alias: document.getElementById("alias").value,
-                vindmyTag: document.getElementById("vindmyTag").value,
-                category: document.getElementById("category").value,
-                subject: document.getElementById("subject").value,
-                message: document.getElementById("message").value
-            })
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: document.getElementById("name")?.value || "",
+            surname: document.getElementById("surname")?.value || "",
+            email: document.getElementById("email")?.value || "",
+            mobile: document.getElementById("mobile")?.value || "",
+            alias: document.getElementById("alias")?.value || "",
+            vindmyTag: document.getElementById("vindmyTag")?.value || "",
+            category: document.getElementById("category")?.value || "",
+            subject: document.getElementById("subject")?.value || "",
+            message: document.getElementById("message")?.value || ""
+          })
         });
 
         const result = await response.json();
 
         if (response.ok) {
-            alert("Your query has been submitted successfully.");
-            document.getElementById("supportForm").reset();
+          alert("Your query has been submitted successfully.");
+          supportFormJson.reset();
         } else {
-            alert("Failed to submit query.");
-            console.error(result);
+          alert("Failed to submit query.");
+          console.error(result);
         }
-    } catch (error) {
+      } catch (error) {
         console.error(error);
         alert("An error occurred while sending your query.");
-    }
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Query";
+        }
+      }
+    });
+  }
 
-    submitButton.disabled = false;
-    submitButton.textContent = "Submit Query";
-});
+  const verificationForm = document.getElementById("verificationForm");
 
-document.addEventListener("DOMContentLoaded", () => {
+  if (verificationForm) {
+    verificationForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  const form = document.getElementById("verificationForm");
+      const submitButton = document.getElementById("submitBtn") || verificationForm.querySelector("button");
 
-  if (!form) return;
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+      }
 
- }); 
-
-document.getElementById("verificationForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const submitButton = document.getElementById("submitBtn");
-
-    submitButton.disabled = true;
-    submitButton.textContent = "Sending...";
-
-    try {
+      try {
         const response = await fetch("/verification", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name: document.getElementById("name").value,
-                surname: document.getElementById("surname").value,
-                email: document.getElementById("email").value,
-                mobile: document.getElementById("mobile").value,
-                alias: document.getElementById("alias").value,
-                vindmyTag: document.getElementById("vindmyTag").value,
-                identity: document.getElementById("identity").value,
-                business: document.getElementById("business").value
-            })
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: document.getElementById("name")?.value || "",
+            surname: document.getElementById("surname")?.value || "",
+            email: document.getElementById("email")?.value || "",
+            mobile: document.getElementById("mobile")?.value || "",
+            alias: document.getElementById("alias")?.value || "",
+            vindmyTag: document.getElementById("vindmyTag")?.value || "",
+            identity: document.getElementById("identity")?.value || "",
+            business: document.getElementById("business")?.value || ""
+          })
         });
 
         const result = await response.json();
 
         if (response.ok) {
-            alert("Your verification request has been submitted successfully.");
-            document.getElementById("verificationForm").reset();
+          alert("Your verification request has been submitted successfully.");
+          verificationForm.reset();
         } else {
-            alert("Failed to submit verification request.");
-            console.error(result);
+          alert("Failed to submit verification request.");
+          console.error(result);
         }
-    } catch (error) {
+      } catch (error) {
         console.error(error);
         alert("An error occurred while sending your verification request.");
-    }
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Verification";
+        }
+      }
+    });
+  }
 
-    submitButton.disabled = false;
-    submitButton.textContent = "Submit Verification";
 });
 
 function openTerms() {
