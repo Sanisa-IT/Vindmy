@@ -270,6 +270,13 @@ document.getElementById("supportForm").addEventListener("submit", async (e) => {
     submitButton.textContent = "Submit Query";
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+
+  const form = document.getElementById("verificationForm");
+
+  if (!form) return;
+
+ }); 
 
 document.getElementById("verificationForm").addEventListener("submit", async (e) => {
     e.preventDefault();
