@@ -240,12 +240,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        // Use FormData so file inputs (attachments) are included automatically
-        const formData = new FormData(supportFormJson);
-
         const response = await fetch("/support", {
           method: "POST",
-          body: formData
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: document.getElementById("name")?.value || "",
+            surname: document.getElementById("surname")?.value || "",
+            email: document.getElementById("email")?.value || "",
+            mobile: document.getElementById("mobile")?.value || "",
+            alias: document.getElementById("alias")?.value || "",
+            vindmyTag: document.getElementById("vindmyTag")?.value || "",
+            category: document.getElementById("category")?.value || "",
+            subject: document.getElementById("subject")?.value || "",
+            message: document.getElementById("message")?.value || ""
+          })
         });
 
         const result = await response.json();
@@ -283,12 +293,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        // Use FormData to include any file inputs (e.g. documents) for attachments
-        const formData = new FormData(verificationForm);
-
         const response = await fetch("/verification", {
           method: "POST",
-          body: formData
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: document.getElementById("name")?.value || "",
+            surname: document.getElementById("surname")?.value || "",
+            email: document.getElementById("email")?.value || "",
+            mobile: document.getElementById("mobile")?.value || "",
+            alias: document.getElementById("alias")?.value || "",
+            vindmyTag: document.getElementById("vindmyTag")?.value || "",
+            identity: document.getElementById("identity")?.value || "",
+            business: document.getElementById("business")?.value || ""
+          })
         });
 
         const result = await response.json();
