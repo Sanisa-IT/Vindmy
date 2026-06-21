@@ -14,6 +14,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         from: "noreply@vindmy.com",
         to: ["support@vindmy.com"],
+        subject: `[${body.identity}]`,
         reply_to: body.email,
         html: `
           <h2>Verification Request</h2>
