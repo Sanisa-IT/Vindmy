@@ -240,8 +240,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const formData = new FormData(supportForm);
 
+        const fileInput = document.getElementById("documents");
+        if (fileInput && fileInput.files.length > 0) {
+          const totalSize = Array.from(fileInput.files).reduce((sum, file) => sum + file.size, 0);
+          const MAX_SIZE = 40 * 1024 * 1024; // 40MB in bytes
+
+          if (totalSize > MAX_SIZE) {
+            alert("Total file size exceeds 40MB. Please reduce the number or size of files.");
+            submitButton.disabled = false;
+            submitButton.textContent = "Submit Query";
+            return;
+          }
+
+          // Re-append files explicitly to ensure all are included
+          formData.delete("documents");
+          for (const file of fileInput.files) {
+            formData.append("documents", file);
+          }
+        }
+
         const response = await fetch("/support", {
           method: "POST",
+          // ⚠️ Do NOT set Content-Type — browser handles multipart boundary automatically
           body: formData
         });
 
