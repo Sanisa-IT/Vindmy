@@ -185,14 +185,34 @@ nav.navbar {
   }
 }
 
-@media (max-width: 768px) {
+
+
+ @media (max-width: 768px) {
+
   nav.navbar {
-    padding: 14px 18px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    padding: 0 !important;
   }
 
   .nav-container {
-    gap: 0.75rem;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
   }
+
+  .logo,
+  .logo img,
+  .logo-text {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
 
   .hero-section {
     padding: 120px 16px;
@@ -589,13 +609,14 @@ padding: 120px 20px;
 
   .social-icons {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center; 
     gap: 10px;
+  
   }
 
   .store-buttons {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 10px;
   }
 }
