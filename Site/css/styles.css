@@ -415,12 +415,13 @@ padding: 120px 20px;
 }
 
 .signup2-btn:hover {
-  
-   background: var(--accent);
+  background: var(--accent);
+  transform: translateY(-5px);
+
 }
 
 
-.signup-btn:hover {
+.getApp-btn:hover {
   background: var(--accent);
   transform: translateY(-5px);
 }
