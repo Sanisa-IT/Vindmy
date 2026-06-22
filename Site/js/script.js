@@ -161,47 +161,7 @@ window.addEventListener("load", () => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const supportForm = document.getElementById("supportForm");
-
-  if (supportForm) {
-    supportForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const submitButton = supportForm.querySelector("#submitButton") || supportForm.querySelector("button");
-      if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.textContent = "Sending...";
-      }
-
-      try {
-        const formData = new FormData(supportForm);
-
-        const response = await fetch("/api/contact", {
-          method: "POST",
-          body: formData
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          alert("Your query has been submitted successfully.");
-          supportForm.reset();
-        } else {
-          alert(result.message || "Failed to submit query.");
-        }
-      } catch (error) {
-        console.error(error);
-        alert("An error occurred while submitting your query.");
-      } finally {
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.textContent = "Submit Query";
-        }
-      }
-    });
-  }
-
-}); /* ==============================
+ /* ==============================
      AUTO-FILL FROM URL
   ============================== */
   document.addEventListener("DOMContentLoaded", () => {
