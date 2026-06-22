@@ -234,47 +234,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const submitButton = document.getElementById("submitButton") || supportFormJson.querySelector("button");
 
-      if (submitButton) {
+      try {
         submitButton.disabled = true;
         submitButton.textContent = "Sending...";
-      }
 
-      try {
+        const formData = new FormData(supportForm);
+
+        const fileInput = document.getElementById("documents");
+        if (fileInput && fileInput.files.length > 0) {
+          const totalSize = Array.from(fileInput.files).reduce((sum, file) => sum + file.size, 0);
+          const MAX_SIZE = 40 * 1024 * 1024; // 40MB in bytes
+
+          if (totalSize > MAX_SIZE) {
+            alert("Total file size exceeds 40MB. Please reduce the number or size of files.");
+            submitButton.disabled = false;
+            submitButton.textContent = "Submit Query";
+            return;
+          }
+
+          // Re-append files explicitly to ensure all are included
+          formData.delete("documents");
+          for (const file of fileInput.files) {
+            formData.append("documents", file);
+          }
+        }
+
         const response = await fetch("/support", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            name: document.getElementById("name")?.value || "",
-            surname: document.getElementById("surname")?.value || "",
-            email: document.getElementById("email")?.value || "",
-            mobile: document.getElementById("mobile")?.value || "",
-            alias: document.getElementById("alias")?.value || "",
-            vindmyTag: document.getElementById("vindmyTag")?.value || "",
-            category: document.getElementById("category")?.value || "",
-            subject: document.getElementById("subject")?.value || "",
-            message: document.getElementById("message")?.value || ""
-          })
+          // ⚠️ Do NOT set Content-Type — browser handles multipart boundary automatically
+          body: formData
         });
 
         const result = await response.json();
 
-        if (response.ok) {
+if (response.ok) {
           alert("Your query has been submitted successfully.");
-          supportFormJson.reset();
+          supportForm.reset();
         } else {
-          alert("Failed to submit query.");
-          console.error(result);
+          alert(result.error || "Failed to submit query.");
         }
       } catch (error) {
         console.error(error);
         alert("An error occurred while sending your query.");
       } finally {
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.textContent = "Submit Query";
-        }
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Query";
       }
     });
   }
@@ -287,46 +291,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const submitButton = document.getElementById("submitBtn") || verificationForm.querySelector("button");
 
-      if (submitButton) {
+      try {
         submitButton.disabled = true;
         submitButton.textContent = "Sending...";
+
+        const formData = new FormData(verificationForm);
+
+      const files = document.getElementById("documents").files;
+      const totalSize = Array.from(files).reduce((sum, file) => sum + file.size, 0);
+      const MAX_SIZE = 40 * 1024 * 1024; // 40MB in bytes
+
+      if (totalSize > MAX_SIZE) {
+        alert("Total file size exceeds 40MB. Please reduce the number or size of files.");
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Verification";
+        return;
       }
 
-      try {
-        const response = await fetch("/verification", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            name: document.getElementById("name")?.value || "",
-            surname: document.getElementById("surname")?.value || "",
-            email: document.getElementById("email")?.value || "",
-            mobile: document.getElementById("mobile")?.value || "",
-            alias: document.getElementById("alias")?.value || "",
-            vindmyTag: document.getElementById("vindmyTag")?.value || "",
-            identity: document.getElementById("identity")?.value || "",
-            business: document.getElementById("business")?.value || ""
-          })
-        });
+      // Re-append files explicitly to ensure all are included
+      formData.delete("documents");
+      for (const file of files) {
+        formData.append("documents", file);
+      }
 
-        const result = await response.json();
+      const response = await fetch("/verification", {
+        method: "POST",
+        // ⚠️ Do NOT set Content-Type header — browser handles multipart boundary automatically
+        body: formData
+      });
+
+      const result = await response.json();
 
         if (response.ok) {
           alert("Your verification request has been submitted successfully.");
           verificationForm.reset();
         } else {
-          alert("Failed to submit verification request.");
-          console.error(result);
+          alert(result.error || "Failed to submit verification request.");
         }
       } catch (error) {
         console.error(error);
         alert("An error occurred while sending your verification request.");
       } finally {
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.textContent = "Submit Verification";
-        }
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Verification";
       }
     });
   }

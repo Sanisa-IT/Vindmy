@@ -1,59 +1,89 @@
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  const body = await request.json();
+  // Parse as FormData — not JSON (frontend now sends multipart/form-data)
+  const formData = await request.formData();
 
-  const response = await fetch(
-    "https://api.resend.com/emails",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "noreply@vindmy.com",
-        to: ["support@vindmy.com"],
-        subject: `[${body.identity}]`,
-        reply_to: body.email,
-        html: `
-          <h2>Verification Request</h2>
+  const name      = formData.get("name");
+  const surname   = formData.get("surname");
+  const email     = formData.get("email");
+  const mobile    = formData.get("mobile");
+  const alias     = formData.get("alias");
+  const vindmyTag = formData.get("vindmyTag");
+  const identity  = formData.get("identity");
+  const business  = formData.get("business");
 
-          <p><b>Name:</b> ${body.name}</p>
-          <p><b>Surname:</b> ${body.surname}</p>
-          <p><b>Email:</b> ${body.email}</p>
-          <p><b>Mobile:</b> ${body.mobile}</p>
-          <p><b>Alias:</b> ${body.alias}</p>
-          <p><b>Vindmy Tag:</b> ${body.vindmyTag}</p>
+  // Validation — moved to TOP before anything else runs
+  if (!name || !surname || !email || !mobile || !alias || !vindmyTag || !identity || !business) {
+    return Response.json(
+      { error: "Missing required fields" },
+      { status: 400 }
+    );
+  }
 
-          <hr>
-          <p><b>Identity Verification Request:</b></p>
-          <p>${body.identity}</p>
+  // Convert uploaded files to Base64 for Resend attachments
+  // Cloudflare Workers have no Node.js Buffer — use chunked Uint8Array + btoa instead
+  const files = formData.getAll("documents");
+  const attachments = await Promise.all(
+    files
+      .filter(file => file && file.size > 0) // ignore empty file inputs
+      .map(async (file) => {
+        const arrayBuffer = await file.arrayBuffer();
+        const uint8Array  = new Uint8Array(arrayBuffer);
 
-          <p><b>Business Verification Request:</b></p>
-          <p>${body.business}</p>
-        `
+        // Process in chunks to avoid call stack overflow on large files
+        const chunkSize = 8192;
+        let binary = "";
+        for (let i = 0; i < uint8Array.length; i += chunkSize) {
+          const chunk = uint8Array.subarray(i, i + chunkSize);
+          binary += String.fromCharCode(...chunk);
+        }
+
+        return {
+          filename: file.name,
+          content:  btoa(binary), // Resend expects Base64-encoded content
+        };
       })
-    }
   );
 
-  const data = await response.json();
+  const resendResponse = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization:  `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from:     "noreply@vindmy.com",
+      to:       ["admin@vindmy.com"],
+      reply_to: email,
+      subject:  `[${identity}] Verification Request - ${alias}`,
+      html: `
+        <h2>Verification Request</h2>
+        <p><b>Name:</b> ${name}</p>
+        <p><b>Surname:</b> ${surname}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Mobile:</b> ${mobile}</p>
+        <p><b>Alias:</b> ${alias}</p>
+        <p><b>Vindmy Tag:</b> ${vindmyTag}</p>
+        <hr>
+        <p><b>Identity Verification Request:</b></p>
+        <p>${identity}</p>
+        <p><b>Business Verification Request:</b></p>
+        <p>${business}</p>
+      `,
+      attachments, // array of { filename, content } — empty array if no files uploaded
+    }),
+  });
 
-  return Response.json(data);
+  const data = await resendResponse.json();
 
-  if (
-  !body.name ||
-  !body.surname ||
-  !body.email ||
-  !body.message ||
-  !body.alias ||
-  !body.vindmyTag ||
-  !body.identity ||
-  !body.business
-) {
-  return Response.json(
-    { error: "Missing required fields" },
-    { status: 400 }
-  );
-}
+  // Return a proper error response if Resend rejects the request
+  if (!resendResponse.ok) {
+    return Response.json(
+      { error: data.message || "Failed to send email" },
+      { status: 500 }
+    );
+  }
+
+  return Response.json({ success: true });
 }
