@@ -484,9 +484,10 @@ padding: 120px 20px;
 /* =========================
    LEGAL SECTION ONLY
 ========================= */
+
 .legal-section {
   padding: 60px 20px;
-  background: #f5f9fb;
+  background: rgb(231, 222, 245);
   text-align: center;
 }
 
