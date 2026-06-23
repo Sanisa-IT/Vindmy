@@ -970,8 +970,8 @@ background:#06B6D4;
 }
 
 .about-image img {
-    width: 100%;
-    max-width: 100%;
+    width: 75%;
+    max-width: 75%;
     height: auto;
     display: block;
     border-radius: 30px;
