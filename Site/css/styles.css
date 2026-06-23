@@ -519,22 +519,25 @@ padding: 120px 20px;
 @media (max-width: 768px) {
   .legal-section {
     padding: 40px 15px;
+    text-align: center;
+  }
+
+  .legal-section .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* centers horizontally */
+    justify-content: center; /* optional: vertical centering */
   }
 
   .legal-section iframe {
+    width: 90%;            /* less than 100% so centering is visible */
+    max-width: 500px;
     height: 70vh;
+    display: block;
+    margin: 0 auto;        /* ensures equal spacing on both sides */
   }
 }
 
-@media (max-width: 480px) {
-  .legal-section h2 {
-    font-size: 22px;
-  }
-
-  .legal-section iframe {
-    height: 65vh;
-  }
-}
 
 .footer-grid {
   display: flex;
