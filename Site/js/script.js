@@ -300,22 +300,3 @@ if (response.ok) {
 
 });
 
-function openTerms() {
-  document.getElementById("legalFrame").src =
-    "https://www.iubenda.com/terms-and-conditions/86063130";
-
-  document.getElementById("legalModal").style.display = "block";
-}
-
-function openPolicy() {
-  document.getElementById("legalFrame").src =
-    "https://www.iubenda.com/privacy-policy/86063130";
-
-  document.getElementById("legalModal").style.display = "block";
-}
-
-function closeLegal() {
-  document.getElementById("legalModal").style.display = "none";
-  document.getElementById("legalFrame").src = "";
-
-}
