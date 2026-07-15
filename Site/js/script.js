@@ -198,7 +198,15 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.disabled = true;
         submitButton.textContent = "Sending...";
 
-        const formData = new FormData(supportForm);
+        const formData = new FormData(supportFormJson);
+
+        const captchaToken = formData.get("g-recaptcha-response");
+        if (!captchaToken) {
+          alert("Please complete the reCAPTCHA.");
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Query";
+          return;
+        }
 
         const fileInput = document.getElementById("documents");
         if (fileInput && fileInput.files.length > 0) {
@@ -256,6 +264,14 @@ if (response.ok) {
         submitButton.textContent = "Sending...";
 
         const formData = new FormData(verificationForm);
+
+      const captchaToken = formData.get("g-recaptcha-response");
+      if (!captchaToken) {
+        alert("Please complete the reCAPTCHA.");
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Verification";
+        return;
+      }
 
       const files = document.getElementById("documents").files;
       const totalSize = Array.from(files).reduce((sum, file) => sum + file.size, 0);

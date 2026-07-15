@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vindmy - Digital Identity & Verification Platform</title>
   <link rel="stylesheet" href="../css/styles.css" />
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 
@@ -80,6 +81,8 @@
           <input type="checkbox" id="consent" name="consent" required>
           <label for="consent">I consent to my data being processed</label>
         </div>
+
+        <div class="g-recaptcha" data-sitekey="6LfjLFUtAAAAAAeVzKTMd9ORxq5c2YDeQy8X0jOG"></div>
 
         <button type="submit" id="submitButton">Submit Query</button>
       </form>

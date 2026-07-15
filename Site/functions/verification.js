@@ -21,6 +21,44 @@ export async function onRequestPost(context) {
     );
   }
 
+  // Verify reCAPTCHA token before doing expensive work
+  const captchaToken = formData.get("g-recaptcha-response");
+  if (!captchaToken) {
+    return Response.json({ error: "Missing reCAPTCHA token" }, { status: 400 });
+  }
+
+  const verifyData = new URLSearchParams();
+  verifyData.append("secret", env.RECAPTCHA_SECRET_KEY);
+  verifyData.append("response", captchaToken);
+
+  const verifyResponse = await fetch(
+    "https://www.google.com/recaptcha/api/siteverify",
+    {
+      method: "POST",
+      body: verifyData,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    }
+  );
+
+  const verifyResult = await verifyResponse.json();
+
+  if (!verifyResult.success) {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        message: "reCAPTCHA verification failed."
+      }),
+      {
+        status: 400,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+  }
+
   // Convert uploaded files to Base64 for Resend attachments
   // Cloudflare Workers have no Node.js Buffer — use chunked Uint8Array + btoa instead
   const files = formData.getAll("documents");
