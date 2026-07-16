@@ -1,5 +1,3 @@
-
-
 /* ==========================================
    DESIGN SYSTEM
 ========================================== */
@@ -670,8 +668,8 @@ padding: 120px 20px;
 .support-form .consent {
   display: flex;
   align-items: flex-start;
-  gap:2px;
-  margin-bottom: 20px;
+  gap: 2px;
+  margin-bottom: 60px;  /* increased from 40px */
 }
 
 .support-form .consent input {
@@ -820,7 +818,7 @@ padding: 120px 20px;
   display: flex;
   align-items: flex-start;   /* keeps checkbox and text aligned */
   gap: 6px;              /* small space between checkbox and text */
-  margin-bottom: 20px;
+  margin-bottom: 60px;  /* increased from 40px */
   
 }
 
@@ -1009,6 +1007,9 @@ background:#06B6D4;
 
     .about-content {
         max-width: 100%;
+        padding: 0;
+        margin: 0 auto;
+        text-align: center;
     }
 
     .about-content h2 {
