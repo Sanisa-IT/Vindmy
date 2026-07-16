@@ -669,7 +669,7 @@ padding: 120px 20px;
   display: flex;
   align-items: flex-start;
   gap: 2px;
-  margin-bottom: 60px;  /* increased from 40px */
+  margin-bottom: 20px;  /* decreased from 60px */
 }
 
 .support-form .consent input {
@@ -817,9 +817,9 @@ padding: 120px 20px;
 
 .verification-form .consent {
   display: flex;
-  align-items: flex-start;   /* keeps checkbox and text aligned */
-  gap: 6px;              /* small space between checkbox and text */
-  margin-bottom: 60px;  /* increased from 40px */
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 20px;  /* decreased from 60px */
   
 }
 
