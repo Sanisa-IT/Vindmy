@@ -692,6 +692,7 @@ padding: 120px 20px;
   cursor: pointer;
   transition: all .3s ease;
   box-shadow: 0 10px 25px rgba(37,99,235,.25);
+  margin-top: 30px;  /* added space above button */
 }
 
 .support-form button:hover {
@@ -849,6 +850,7 @@ padding: 120px 20px;
   cursor: pointer;
   transition: all .3s ease;
   box-shadow: 0 10px 25px rgba(37,99,235,.25);
+  margin-top: 30px;  /* added space above button */
 }
 
 .verification-form button:hover {
