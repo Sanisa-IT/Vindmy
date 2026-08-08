@@ -12,6 +12,52 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/Images/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/Images/favicon-192x192.png" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    .form-status {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      animation: statusFadeIn 0.25s ease;
+    }
+    .form-status[hidden] {
+      display: none;
+    }
+    .form-status .status-icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+    }
+    .form-status.status-success {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: var(--dark);
+    }
+    .form-status.status-success .status-icon {
+      background: var(--gradient-button);
+    }
+    .form-status.status-error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #f3a5a5;
+    }
+    .form-status.status-error .status-icon {
+      background: #991b1b;
+    }
+    @keyframes statusFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
 
@@ -40,6 +86,9 @@
     <!-- Left: Form -->
     <div class="support-container">
       <h2>Support & Query Form</h2>
+
+      <div id="supportStatus" class="form-status" hidden></div>
+
       <form class="support-form" id="supportForm">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" required>

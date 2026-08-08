@@ -14,9 +14,9 @@
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
     .upload-instructions {
-      background: #f6f8fa;
-      border: 1px solid #e1e6eb;
-      border-left: 4px solid #2f6fed;
+      background: #f5f7ff;
+      border: 1px solid #dbe3fb;
+      border-left: 4px solid var(--primary);
       border-radius: 8px;
       padding: 14px 16px;
       margin: 8px 0 14px;
@@ -25,7 +25,7 @@
       margin: 0 0 8px;
       font-weight: 600;
       font-size: 0.95rem;
-      color: #1f2933;
+      color: var(--dark);
     }
     .upload-instructions ol {
       margin: 0;
@@ -35,13 +35,58 @@
       margin-bottom: 8px;
       font-size: 0.9rem;
       line-height: 1.45;
-      color: #3e4c59;
+      color: var(--dark-light);
     }
     .upload-instructions li:last-child {
       margin-bottom: 0;
     }
     .upload-instructions strong {
-      color: #1f2933;
+      color: var(--secondary);
+    }
+
+    .form-status {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      animation: statusFadeIn 0.25s ease;
+    }
+    .form-status[hidden] {
+      display: none;
+    }
+    .form-status .status-icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+    }
+    .form-status.status-success {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      color: var(--dark);
+    }
+    .form-status.status-success .status-icon {
+      background: var(--gradient-button);
+    }
+    .form-status.status-error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #f3a5a5;
+    }
+    .form-status.status-error .status-icon {
+      background: #991b1b;
+    }
+    @keyframes statusFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -72,6 +117,9 @@
     <!-- Left: Verification Form -->
     <div class="verification-container">
       <h2>Profile Verification</h2>
+
+      <div id="verificationStatus" class="form-status" hidden></div>
+
       <form class="verification-form" id="verificationForm">
 
         <label for="name">Name</label>
