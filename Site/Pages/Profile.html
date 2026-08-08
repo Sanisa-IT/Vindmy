@@ -7,6 +7,38 @@
   <title>Vindmy - Digital Identity & Verification Platform</title>
   <link rel="stylesheet" href="../css/styles.css" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    .upload-instructions {
+      background: #f6f8fa;
+      border: 1px solid #e1e6eb;
+      border-left: 4px solid #2f6fed;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin: 8px 0 14px;
+    }
+    .upload-instructions-intro {
+      margin: 0 0 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #1f2933;
+    }
+    .upload-instructions ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .upload-instructions li {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: #3e4c59;
+    }
+    .upload-instructions li:last-child {
+      margin-bottom: 0;
+    }
+    .upload-instructions strong {
+      color: #1f2933;
+    }
+  </style>
 </head>
 <body>
 
@@ -55,14 +87,18 @@
         <label for="vindmyTag">Vindmy Tag</label>
         <input type="text" id="vindmyTag" name="vindmyTag" placeholder="Enter Vindmy tag" required>
 
-
-        <label for="identity">Identity Verification Request</label>
-        <input type="text" id="identity" name="identity" placeholder="Enter ID details" required>
-
-        <!-- <label for="business">Business Verification Request</label>
-        <input type="text" id="business" name="business" placeholder="Enter business details" required> -->
-
         <label for="documents">Supporting Documents</label>
+        <div class="upload-instructions">
+          <p class="upload-instructions-intro">Please upload the following photos:</p>
+          <ol>
+            <li>
+              <strong>Rear of vehicle</strong> — A clear picture of the back of your car with the number plate and car model clearly visible.
+            </li>
+            <li>
+              <strong>Licence disc verification</strong> — Open the front passenger window. Place four fingers behind the licence disc on the windscreen, keeping your thumb visible. Take a clear photo showing both the licence disc and your hand.
+            </li>
+          </ol>
+        </div>
         <input type="file" id="documents" name="documents" multiple required>
 
         <div class="consent">
