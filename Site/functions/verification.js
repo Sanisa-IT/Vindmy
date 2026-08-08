@@ -10,11 +10,11 @@ export async function onRequestPost(context) {
   const mobile    = formData.get("mobile");
   const alias     = formData.get("alias");
   const vindmyTag = formData.get("vindmyTag");
-  const identity  = formData.get("identity");
-  const business  = formData.get("business");
+ 
+ 
 
   // Validation — moved to TOP before anything else runs
-  if (!name || !surname || !email || !mobile || !alias || !vindmyTag || !identity || !business) {
+  if (!name || !surname || !email || !mobile || !alias || !vindmyTag ) {
     return Response.json(
       { error: "Missing required fields" },
       { status: 400 }
@@ -104,10 +104,6 @@ export async function onRequestPost(context) {
         <p><b>Alias:</b> ${alias}</p>
         <p><b>Vindmy Tag:</b> ${vindmyTag}</p>
         <hr>
-        <p><b>Identity Verification Request:</b></p>
-        <p>${identity}</p>
-        <p><b>Business Verification Request:</b></p>
-        <p>${business}</p>
       `,
       attachments, // array of { filename, content } — empty array if no files uploaded
     }),
