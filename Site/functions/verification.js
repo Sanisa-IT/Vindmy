@@ -94,7 +94,7 @@ export async function onRequestPost(context) {
       from:     "noreply@vindmy.com",
       to:       ["admin@vindmy.com"],
       reply_to: email,
-      subject:  `[${identity}] Verification Request - ${alias}`,
+      subject:  `Verification Request - ${alias}`,
       html: `
         <h2>Verification Request</h2>
         <p><b>Name:</b> ${name}</p>
