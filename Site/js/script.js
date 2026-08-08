@@ -193,6 +193,23 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
 
       const submitButton = document.getElementById("submitButton") || supportFormJson.querySelector("button");
+      const supportStatus = document.getElementById("supportStatus");
+
+      function showSupportStatus(type, message) {
+        if (!supportStatus) {
+          alert(message);
+          return;
+        }
+        const icon = type === "success"
+          ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          : '<svg width="3" height="12" viewBox="0 0 4 16" fill="none"><rect x="0" y="0" width="4" height="10" rx="2" fill="#fff"/><rect x="0" y="13" width="4" height="3" rx="1.5" fill="#fff"/></svg>';
+        supportStatus.className = `form-status status-${type}`;
+        supportStatus.innerHTML = `<span class="status-icon">${icon}</span><span>${message}</span>`;
+        supportStatus.hidden = false;
+        supportStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      if (supportStatus) supportStatus.hidden = true;
 
       try {
         submitButton.disabled = true;
@@ -202,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const captchaToken = formData.get("g-recaptcha-response");
         if (!captchaToken) {
-          alert("Please complete the reCAPTCHA.");
+          showSupportStatus("error", "Please complete the reCAPTCHA.");
           submitButton.disabled = false;
           submitButton.textContent = "Submit Query";
           return;
@@ -214,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const MAX_SIZE = 40 * 1024 * 1024; // 40MB in bytes
 
           if (totalSize > MAX_SIZE) {
-            alert("Total file size exceeds 40MB. Please reduce the number or size of files.");
+            showSupportStatus("error", "Total file size exceeds 40MB. Please reduce the number or size of files.");
             submitButton.disabled = false;
             submitButton.textContent = "Submit Query";
             return;
@@ -236,14 +253,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = await response.json();
 
 if (response.ok) {
-          alert("Your query has been submitted successfully.");
-          supportForm.reset();
+          supportFormJson.reset();
+          supportFormJson.hidden = true;
+          showSupportStatus("success", "Your query has been submitted successfully. Our team will get back to you shortly.");
         } else {
-          alert(result.error || "Failed to submit query.");
+          showSupportStatus("error", result.error || "Failed to submit query.");
         }
       } catch (error) {
         console.error(error);
-        alert("An error occurred while sending your query.");
+        showSupportStatus("error", "An error occurred while sending your query. Please try again.");
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = "Submit Query";
@@ -252,12 +270,29 @@ if (response.ok) {
   }
 
   const verificationForm = document.getElementById("verificationForm");
+  const verificationStatus = document.getElementById("verificationStatus");
+
+  function showVerificationStatus(type, message) {
+    if (!verificationStatus) {
+      alert(message); // fallback if the banner element is ever missing
+      return;
+    }
+    const icon = type === "success"
+      ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      : '<svg width="3" height="12" viewBox="0 0 4 16" fill="none"><rect x="0" y="0" width="4" height="10" rx="2" fill="#fff"/><rect x="0" y="13" width="4" height="3" rx="1.5" fill="#fff"/></svg>';
+    verificationStatus.className = `form-status status-${type}`;
+    verificationStatus.innerHTML = `<span class="status-icon">${icon}</span><span>${message}</span>`;
+    verificationStatus.hidden = false;
+    verificationStatus.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 
   if (verificationForm) {
     verificationForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const submitButton = document.getElementById("submitBtn") || verificationForm.querySelector("button");
+
+      if (verificationStatus) verificationStatus.hidden = true;
 
       try {
         submitButton.disabled = true;
@@ -267,7 +302,7 @@ if (response.ok) {
 
       const captchaToken = formData.get("g-recaptcha-response");
       if (!captchaToken) {
-        alert("Please complete the reCAPTCHA.");
+        showVerificationStatus("error", "Please complete the reCAPTCHA.");
         submitButton.disabled = false;
         submitButton.textContent = "Submit Verification";
         return;
@@ -278,7 +313,7 @@ if (response.ok) {
       const MAX_SIZE = 40 * 1024 * 1024; // 40MB in bytes
 
       if (totalSize > MAX_SIZE) {
-        alert("Total file size exceeds 40MB. Please reduce the number or size of files.");
+        showVerificationStatus("error", "Total file size exceeds 40MB. Please reduce the number or size of files.");
         submitButton.disabled = false;
         submitButton.textContent = "Submit Verification";
         return;
@@ -299,14 +334,15 @@ if (response.ok) {
       const result = await response.json();
 
         if (response.ok) {
-          alert("Your verification request has been submitted successfully.");
           verificationForm.reset();
+          verificationForm.hidden = true;
+          showVerificationStatus("success", "Your verification request has been submitted successfully. Our team will review it and be in touch shortly.");
         } else {
-          alert(result.error || "Failed to submit verification request.");
+          showVerificationStatus("error", result.error || "Failed to submit verification request.");
         }
       } catch (error) {
         console.error(error);
-        alert("An error occurred while sending your verification request.");
+        showVerificationStatus("error", "An error occurred while sending your verification request. Please try again.");
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = "Submit Verification";
