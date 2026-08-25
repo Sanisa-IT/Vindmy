@@ -1,2 +1,11 @@
 .vscode
 node_modules/
+
+# Cloudflare Wrangler
+.wrangler/
+**/.wrangler/
+wrangler.toml
+wrangler.json
+wrangler.jsonc
+.dev.vars
+.mf/

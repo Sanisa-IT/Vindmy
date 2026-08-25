@@ -32,6 +32,35 @@ body {
   padding: 0 24px;
 }
 
+.form-help-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.65rem;
+  margin: 0 0 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.form-help-links a {
+  color: var(--secondary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.form-help-links a:hover,
+.form-help-links a:focus-visible {
+  color: var(--primary);
+  border-bottom-color: currentColor;
+}
+
+.form-help-links span {
+  color: var(--gray-500);
+  font-weight: 500;
+}
+
 /* ==========================================
    NAVBAR
 ========================================== */
@@ -573,9 +602,19 @@ padding: 120px 20px;
   margin-right: 10px;
 }
 
+.social-icons a {
+  display: inline-block;
+  line-height: 0;
+}
+
 .store-buttons img {
   height: 40px;
   margin: 10px;
+}
+
+.store-buttons a {
+  display: inline-block;
+  line-height: 0;
 }
 
 .site-footer {
