@@ -16,7 +16,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="Images/favicon-192x192.png" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
-<body>
+<body class="home-page">
   <!-- Navbar -->
   <nav class="navbar">
   <div class="container nav-container">
@@ -30,7 +30,7 @@
       <span></span>
     </button>
         <ul class="nav-links" id="nav-links">
-      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html" aria-current="page">Home</a></li>
       <li><a href="Pages/about.html">About Us</a></li>
       <li><a href="Pages/Contact.html">Contact</a></li>
       <li><a href="Pages/Profile.html">Profile Verification</a></li>
@@ -42,182 +42,67 @@
 
 
   <!-- Hero Section -->
-  <main>
-    <section class="hero-section">
-      <div class="container">
-      
-        <h1>Welcome to Vindmy</h1>
-        <p>
-          The New Way Of Connecting People
-        </p>
-        <a href="https://play.google.com/store/apps/details?id=com.ads.vindmy" class="cta-btn" target="_blank" rel="noopener noreferrer">Get Started</a>
-      </div>
-    </section>
-<section class="services-showcase">
-
-    <div class="services-showcase-header">
-        <h1>VindMy</h1>
-        <p>Where meaningful connections begin.</p>
+<main>
+  <section class="hero-section" aria-label="Welcome">
+    <div class="hero-scrim"></div>
+    <div class="container hero-content">
+      <h1>Welcome to Vindmy</h1>
+      <p>The New Way Of Connecting People</p>
+      <a
+        href="https://play.google.com/store/apps/details?id=com.ads.vindmy"
+        class="cta-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Get Started</a
+      >
     </div>
+  </section>
 
-    <div class="services-showcase-wrapper">
-        <div class="services-showcase__track">
-
-            <!-- Card 1 -->
-            <div class="services-showcase__card">
-                <img src="Images/Sign up.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>SIGN UP</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Complete account.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>COMPLETE ACCOUNT</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Connect.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>CONNECT</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/View users2.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>VIEW USER</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Like users.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>LIKE USER</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="services-showcase__card">
-                <img src="Images/Messages.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>MESSAGE</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="services-showcase__card">
-                <img src="Images/Search Users.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>SEARCH</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="services-showcase__card">
-                <img src="Images/Communicate.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>CHATS</h3>
-                    <span>→</span>
-                </div>
-            </div>
-             <!-- Card 4 -->
-            <div class="services-showcase__card">
-                <img src="Images/Girls.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>TRAVEL SAFE</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Duplicate Cards -->
-            <div class="services-showcase__card">
-                <img src="Images/Sign up.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>SIGN UP</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Complete account.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>COMPLETE ACCOUNT</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Connect.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>CONNECT</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/View users2.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>VIEW USER</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Like users.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>LIKE USER</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="services-showcase__card">
-                <img src="Images/Messages.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>MESSAGE</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="services-showcase__card">
-                <img src="Images/Search Users.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>SEARCH</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="services-showcase__card">
-                <img src="Images/Communicate.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>COMMUNICATE</h3>
-                    <span>→</span>
-                </div>
-            </div>
-             <!-- Card 4 -->
-            <div class="services-showcase__card">
-                <img src="Images/Girls.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>TRAVEL SAFE</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-        </div>
+<section class="product-strip">
+  <div class="container">
+    <header class="product-strip-header">
+      <h2>VindMy</h2>
+      <p>Where meaningful connections begin.</p>
+    </header>
+    <div class="product-strip-track" tabindex="0">
+      <figure class="product-card">
+        <img src="Images/Sign up.png" alt="Sign up screen" />
+        <figcaption>SIGN UP</figcaption>
+      </figure>
+      <figure class="product-card">
+        <img src="Images/Complete account.png" alt="Complete account screen" />
+        <figcaption>COMPLETE ACCOUNT</figcaption>
+      </figure>
+      <figure class="product-card">
+        <img src="Images/Connect.png" alt="Connect screen" />
+        <figcaption>CONNECT</figcaption>
+      </figure>
+      <figure class="product-card">
+        <img src="Images/View users2.png" alt="View user screen" />
+        <figcaption>VIEW USER</figcaption>
+      </figure>
+      <figure class="product-card">
+        <img src="Images/Like users.png" alt="Like user screen" />
+        <figcaption>LIKE USER</figcaption>
+      </figure>
+      <figure class="product-card">
+        <img src="Images/Messages.png" alt="Message screen" />
+        <figcaption>MESSAGE</figcaption>
+      </figure>
+      <figure class="product-card">
+        <img src="Images/Search Users.png" alt="Search screen" />
+        <figcaption>SEARCH</figcaption>
+      </figure>
+      <figure class="product-card">
+        <img src="Images/Communicate.png" alt="Chats screen" />
+        <figcaption>CHATS</figcaption>
+      </figure>
+      <figure class="product-card">
+        <img src="Images/Girls.png" alt="Travel safe screen" />
+        <figcaption>TRAVEL SAFE</figcaption>
+      </figure>
     </div>
-
+  </div>
 </section>
 
   <!-- App Preview Section -->
@@ -280,7 +165,7 @@
                 <li>✔ Transparency and compliance</li>
                 <li>✔ Continuous platform improvement</li>
                 <li>✔ Building stronger communities through innovation</li>
-            </div>
+            </ul>
 
 
         </div>
@@ -290,6 +175,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <!-- Footer Section -->
 <footer class="site-footer">
