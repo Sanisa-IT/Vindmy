@@ -53,14 +53,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function animateValue(id, start, end, duration) {
   const obj = document.getElementById(id);
-  let range = end - start;
+  if (!obj) return;
+
+  const range = end - start;
+  if (range === 0) {
+    obj.textContent = end.toLocaleString();
+    return;
+  }
+
   let stepTime = Math.abs(Math.floor(duration / range));
+  if (stepTime < 1) stepTime = 1;
+
   let current = start;
-  let increment = end > start ? 1 : -1;
-  let timer = setInterval(function() {
+  const increment = end > start ? 1 : -1;
+  const timer = setInterval(function() {
     current += increment;
     obj.textContent = current.toLocaleString();
-    if (current == end) {
+    if (current === end) {
       clearInterval(timer);
     }
   }, stepTime);
@@ -76,6 +85,7 @@ const faqItems = document.querySelectorAll('.faq-item');
 
 faqItems.forEach(item => {
     const question = item.querySelector('.faq-question');
+    if (!question) return;
 
     question.addEventListener('click', () => {
 
@@ -92,6 +102,7 @@ faqItems.forEach(item => {
 document.querySelectorAll(".section-title").forEach(title => {
     title.addEventListener("click", () => {
         const content = title.nextElementSibling;
+        if (!content) return;
         content.style.display =
             content.style.display === "block" ? "none" : "block";
     });
@@ -101,6 +112,7 @@ document.querySelectorAll(".section-title").forEach(title => {
 document.querySelectorAll(".question-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         const answer = btn.nextElementSibling;
+        if (!answer) return;
         answer.style.display =
             answer.style.display === "block" ? "none" : "block";
     });
@@ -184,18 +196,14 @@ window.addEventListener("load", () => {
   document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(window.location.search);
 
-    const name = params.get("name");
-    const surname = params.get("surname");
-    const email = params.get("email");
-    const mobile = params.get("mobile");
-    const alias = params.get("alias");
-    const vindmyTag = params.get("vindmyTag");
-    if (name) document.getElementById("name").value = name;
-    if (surname) document.getElementById("surname").value = surname;
-    if (email) document.getElementById("email").value = email;
-    if (mobile) document.getElementById("mobile").value = mobile;
-    if (alias) document.getElementById("alias").value = alias;
-    if (vindmyTag) document.getElementById("vindmyTag").value = vindmyTag;
+    const fields = ["name", "surname", "email", "mobile", "alias", "vindmyTag"];
+    fields.forEach((id) => {
+      const value = params.get(id);
+      const input = document.getElementById(id);
+      if (value && input) {
+        input.value = value;
+      }
+    });
 });
 
   /* ==============================
@@ -229,16 +237,20 @@ document.addEventListener("DOMContentLoaded", () => {
       if (supportStatus) supportStatus.hidden = true;
 
       try {
-        submitButton.disabled = true;
-        submitButton.textContent = "Sending...";
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Sending...";
+        }
 
         const formData = new FormData(supportFormJson);
 
         const captchaToken = formData.get("g-recaptcha-response");
         if (!captchaToken) {
           showSupportStatus("error", "Please complete the reCAPTCHA.");
-          submitButton.disabled = false;
-          submitButton.textContent = "Submit Query";
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "Submit Query";
+          }
           return;
         }
 
@@ -249,8 +261,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (totalSize > MAX_SIZE) {
             showSupportStatus("error", "Total file size exceeds 40MB. Please reduce the number or size of files.");
-            submitButton.disabled = false;
-            submitButton.textContent = "Submit Query";
+            if (submitButton) {
+              submitButton.disabled = false;
+              submitButton.textContent = "Submit Query";
+            }
             return;
           }
 
@@ -280,8 +294,10 @@ if (response.ok) {
         console.error(error);
         showSupportStatus("error", "An error occurred while sending your query. Please try again.");
       } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit Query";
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Query";
+        }
       }
     });
   }
@@ -312,34 +328,43 @@ if (response.ok) {
       if (verificationStatus) verificationStatus.hidden = true;
 
       try {
-        submitButton.disabled = true;
-        submitButton.textContent = "Sending...";
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Sending...";
+        }
 
         const formData = new FormData(verificationForm);
 
       const captchaToken = formData.get("g-recaptcha-response");
       if (!captchaToken) {
         showVerificationStatus("error", "Please complete the reCAPTCHA.");
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit Verification";
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Verification";
+        }
         return;
       }
 
-      const files = document.getElementById("documents").files;
-      const totalSize = Array.from(files).reduce((sum, file) => sum + file.size, 0);
+      const fileInput = document.getElementById("documents");
+      const files = fileInput ? Array.from(fileInput.files) : [];
+      const totalSize = files.reduce((sum, file) => sum + file.size, 0);
       const MAX_SIZE = 40 * 1024 * 1024; // 40MB in bytes
 
       if (totalSize > MAX_SIZE) {
         showVerificationStatus("error", "Total file size exceeds 40MB. Please reduce the number or size of files.");
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit Verification";
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Verification";
+        }
         return;
       }
 
       // Re-append files explicitly to ensure all are included
-      formData.delete("documents");
-      for (const file of files) {
-        formData.append("documents", file);
+      if (fileInput) {
+        formData.delete("documents");
+        for (const file of files) {
+          formData.append("documents", file);
+        }
       }
 
       const response = await fetch("/verification", {
@@ -361,8 +386,10 @@ if (response.ok) {
         console.error(error);
         showVerificationStatus("error", "An error occurred while sending your verification request. Please try again.");
       } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit Verification";
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Verification";
+        }
       }
     });
   }
