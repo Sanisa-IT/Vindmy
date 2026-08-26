@@ -2,29 +2,46 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.getElementById("menu-toggle");
   const navLinks = document.getElementById("nav-links");
 
-  if (!menuToggle || !navLinks) return;
-
-  menuToggle.addEventListener("pointerup", () => {
-    navLinks.classList.toggle("active");
-    menuToggle.classList.toggle("active");
-    console.log("Hamburger tapped!");
-  });
-
-  document.querySelectorAll("#nav-links a").forEach(link => {
-    link.addEventListener("click", () => {
-      navLinks.classList.remove("active");
-      menuToggle.classList.remove("active");
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener("pointerup", () => {
+      navLinks.classList.toggle("active");
+      menuToggle.classList.toggle("active");
     });
-  });
-});
 
-  const ctaBtn = document.querySelector(".cta-btn");
-  if (ctaBtn) {
-    ctaBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      alert("Welcome to Vindmy! Let's get you started.");
+    document.querySelectorAll("#nav-links a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+        menuToggle.classList.remove("active");
+      });
     });
   }
+
+  const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.ads.vindmy";
+  const APP_STORE_URL = "https://apps.apple.com/za/app/vindmy/id6761360162";
+
+  function getPreferredStoreUrl() {
+    const ua = navigator.userAgent || "";
+    const platform = navigator.platform || "";
+    const isIOS =
+      /iPhone|iPad|iPod/i.test(ua) ||
+      (platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const isAndroid = /Android/i.test(ua);
+
+    if (isIOS) return APP_STORE_URL;
+    if (isAndroid) return PLAY_STORE_URL;
+
+    // Desktop: Mac → App Store, otherwise Play Store
+    if (/Mac|Macintosh/i.test(platform) || /Macintosh/i.test(ua)) {
+      return APP_STORE_URL;
+    }
+    return PLAY_STORE_URL;
+  }
+
+  const storeUrl = getPreferredStoreUrl();
+  document.querySelectorAll(".getApp-btn, .cta-btn").forEach((btn) => {
+    btn.href = storeUrl;
+  });
+});
 
   const signupBtn = document.querySelector(".signup-btn");
   if (signupBtn) {
