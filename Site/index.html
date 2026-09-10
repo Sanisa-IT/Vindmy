@@ -7,22 +7,21 @@
   <title>Vindmy - Digital Identity & Verification Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Michroma&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="icon" href="Images/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="Images/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="Images/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="Images/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="Images/favicon-192x192.png" />
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
-<body>
+<body class="home-page">
   <!-- Navbar -->
   <nav class="navbar">
   <div class="container nav-container">
     <div class="logo">
       <img src="Images/vindmy_logo.png" alt="Vindmy Logo">
-      <span class="logo-text">VINDMY</span>
+      <span class="logo-text brand-name">VINDMY</span>
     </div>
     <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-controls="nav-links" aria-expanded="false" type="button">
       <span></span>
@@ -30,7 +29,7 @@
       <span></span>
     </button>
         <ul class="nav-links" id="nav-links">
-      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html" aria-current="page">Home</a></li>
       <li><a href="Pages/about.html">About Us</a></li>
       <li><a href="Pages/Contact.html">Contact</a></li>
       <li><a href="Pages/Profile.html">Profile Verification</a></li>
@@ -42,182 +41,76 @@
 
 
   <!-- Hero Section -->
-  <main>
-    <section class="hero-section">
-      <div class="container">
-      
-        <h1>Welcome to Vindmy</h1>
-        <p>
-          The New Way Of Connecting People
-        </p>
-        <a href="https://play.google.com/store/apps/details?id=com.ads.vindmy" class="cta-btn" target="_blank" rel="noopener noreferrer">Get Started</a>
-      </div>
-    </section>
-<section class="services-showcase">
-
-    <div class="services-showcase-header">
-        <h1>VindMy</h1>
-        <p>Where meaningful connections begin.</p>
+<main>
+  <section class="hero-section" aria-label="Welcome">
+    <div class="hero-scrim"></div>
+    <div class="container hero-content">
+      <h1>Welcome to <span class="brand-name">Vindmy</span></h1>
+      <p>The New Way Of Connecting People</p>
+      <a
+        href="https://play.google.com/store/apps/details?id=com.ads.vindmy"
+        class="cta-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Get Started</a
+      >
     </div>
+  </section>
 
-    <div class="services-showcase-wrapper">
-        <div class="services-showcase__track">
-
-            <!-- Card 1 -->
-            <div class="services-showcase__card">
-                <img src="Images/Sign up.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>SIGN UP</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Complete account.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>COMPLETE ACCOUNT</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Connect.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>CONNECT</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/View users2.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>VIEW USER</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Like users.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>LIKE USER</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="services-showcase__card">
-                <img src="Images/Messages.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>MESSAGE</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="services-showcase__card">
-                <img src="Images/Search Users.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>SEARCH</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="services-showcase__card">
-                <img src="Images/Communicate.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>CHATS</h3>
-                    <span>→</span>
-                </div>
-            </div>
-             <!-- Card 4 -->
-            <div class="services-showcase__card">
-                <img src="Images/Girls.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>TRAVEL SAFE</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Duplicate Cards -->
-            <div class="services-showcase__card">
-                <img src="Images/Sign up.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>SIGN UP</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Complete account.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>COMPLETE ACCOUNT</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Connect.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>CONNECT</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/View users2.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>VIEW USER</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <div class="services-showcase__card">
-                <img src="Images/Like users.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>LIKE USER</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="services-showcase__card">
-                <img src="Images/Messages.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>MESSAGE</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="services-showcase__card">
-                <img src="Images/Search Users.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>SEARCH</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="services-showcase__card">
-                <img src="Images/Communicate.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>COMMUNICATE</h3>
-                    <span>→</span>
-                </div>
-            </div>
-             <!-- Card 4 -->
-            <div class="services-showcase__card">
-                <img src="Images/Girls.png" alt="Service">
-                <div class="services-showcase__overlay">
-                    <h3>TRAVEL SAFE</h3>
-                    <span>→</span>
-                </div>
-            </div>
-
+<section class="product-strip">
+  <div class="container">
+    <header class="product-strip-header">
+      <h2 class="brand-name">Vindmy</h2>
+      <p>Where meaningful connections begin.</p>
+    </header>
+    <div
+      class="product-carousel"
+      data-autoplay="3000"
+      aria-roledescription="carousel"
+      aria-label="App screen previews"
+    >
+      <div class="product-carousel-viewport">
+        <div class="product-strip-track">
+          <figure class="product-card is-active">
+            <img src="Images/Sign up.png" alt="Sign up screen" />
+            <figcaption>SIGN UP</figcaption>
+          </figure>
+          <figure class="product-card">
+            <img src="Images/Complete account.png" alt="Complete account screen" />
+            <figcaption>COMPLETE ACCOUNT</figcaption>
+          </figure>
+          <figure class="product-card">
+            <img src="Images/Connect.png" alt="Connect screen" />
+            <figcaption>CONNECT</figcaption>
+          </figure>
+          <figure class="product-card">
+            <img src="Images/View users2.png" alt="View user screen" />
+            <figcaption>VIEW USER</figcaption>
+          </figure>
+          <figure class="product-card">
+            <img src="Images/Like users.png" alt="Like user screen" />
+            <figcaption>LIKE USER</figcaption>
+          </figure>
+          <figure class="product-card">
+            <img src="Images/Messages.png" alt="Message screen" />
+            <figcaption>MESSAGE</figcaption>
+          </figure>
+          <figure class="product-card">
+            <img src="Images/Search Users.png" alt="Search screen" />
+            <figcaption>SEARCH</figcaption>
+          </figure>
+          <figure class="product-card">
+            <img src="Images/Communicate.png" alt="Chats screen" />
+            <figcaption>CHATS</figcaption>
+          </figure>
+          <figure class="product-card">
+            <img src="Images/Girls.png" alt="Travel safe screen" />
+            <figcaption>TRAVEL SAFE</figcaption>
+          </figure>
         </div>
+      </div>
     </div>
-
+  </div>
 </section>
 
   <!-- App Preview Section -->
@@ -226,7 +119,6 @@
     <!-- Left side: images -->
     <div class="app-image">
       <img src="Images/home_screen_2_vindmy_2.png" alt="Vindmy App Preview">
-      <img src="Images/onboarding_2_graphic.png" alt="Vindmy App Preview">
     </div>
 
     <!-- Right side: text -->
@@ -280,7 +172,7 @@
                 <li>✔ Transparency and compliance</li>
                 <li>✔ Continuous platform improvement</li>
                 <li>✔ Building stronger communities through innovation</li>
-            </div>
+            </ul>
 
 
         </div>
@@ -290,6 +182,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <!-- Footer Section -->
 <footer class="site-footer">
@@ -319,7 +212,7 @@
       <h4>Follow Us</h4>
       <div class="social-icons">
         <a href="https://www.facebook.com/profile.php?id=61593282067271" target="_blank" rel="noopener noreferrer"><img src="Images/fb.svg" alt="Facebook"></a>
-        <a href="https://www.instagram.com/vindmyofficial?igsi=MTB6d3ZuY292amE4NA==" target="_blank" rel="noopener noreferrer"><img src="Images/insta.svg" alt="Instagram"></a>
+        <a href="https://www.instagram.com/vindmyofficial?igsh=MTB6d3ZuY292amE4NA==" target="_blank" rel="noopener noreferrer"><img src="Images/insta.svg" alt="Instagram"></a>
         <a href="https://www.tiktok.com/@vindmyofficial?_r=1&_t=ZS-99CKMimt1S1" target="_blank" rel="noopener noreferrer"><img src="Images/tiktok.svg" alt="TikTok"></a>
         <img src="Images/x.svg" alt="Twitter">
         <a href="https://www.linkedin.com/company/vindmy/" target="_blank" rel="noopener noreferrer"><img src="Images/linkedin.svg" alt="LinkedIn"></a>
@@ -334,7 +227,7 @@
   </div>
   <div class="footer-divider"></div><br>
 
-  <p>© 2026 Vindmy. All rights reserved.</p>
+  <p>© 2026 <span class="brand-name">Vindmy</span>. All rights reserved.</p>
 </footer>
 
 <script src="js/script.js"></script>

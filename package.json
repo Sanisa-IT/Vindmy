@@ -1,29 +1,14 @@
 {
   "name": "vindmy",
   "version": "1.0.0",
-  "description": "A simple starter website scaffold using HTML, CSS, and JavaScript.",
-  "main": "index.js",
+  "description": "Vindmy marketing site (Cloudflare Pages + Resend form functions).",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test Site/functions/_utils.test.mjs"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sanisa-IT/Vindmy.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Sanisa-IT/Vindmy/issues"
-  },
-  "homepage": "https://github.com/Sanisa-IT/Vindmy#readme",
-  "dependencies": {
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "multer": "^2.2.0",
-    "nodemailer": "^9.0.1",
-    "resend": "^6.12.4"
-  }
+  "type": "module"
 }

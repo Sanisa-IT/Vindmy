@@ -1,20 +1,77 @@
+const MAX_IMAGES = 3;
+const MAX_TOTAL_BYTES = 20 * 1024 * 1024; // 20MB
+const ALLOWED_EXTENSIONS = new Set([
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".heic",
+  ".heif",
+]);
+
+function fileExtension(name) {
+  const match = String(name || "").toLowerCase().match(/\.[a-z0-9]+$/);
+  return match ? match[0] : "";
+}
+
+function isAllowedImage(file) {
+  const type = (file.type || "").toLowerCase();
+  const ext = fileExtension(file.name);
+  const mimeOk = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/heic",
+    "image/heif",
+  ].includes(type);
+  return mimeOk || ALLOWED_EXTENSIONS.has(ext);
+}
+
+function validateImageUploads(files, { required = false } = {}) {
+  const list = Array.from(files || []).filter((file) => file && file.size > 0);
+
+  if (required && list.length === 0) {
+    return "Please upload at least one picture (max 3, 20MB total).";
+  }
+
+  if (list.length > MAX_IMAGES) {
+    return "You can upload a maximum of 3 pictures.";
+  }
+
+  for (const file of list) {
+    if (!isAllowedImage(file)) {
+      return "Only image files are allowed (JPG, PNG, WEBP, HEIC).";
+    }
+  }
+
+  const totalSize = list.reduce((sum, file) => sum + file.size, 0);
+  if (totalSize > MAX_TOTAL_BYTES) {
+    return "Total picture size exceeds 20MB. Please reduce the size or number of pictures.";
+  }
+
+  return null;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.getElementById("menu-toggle");
   const navLinks = document.getElementById("nav-links");
 
   if (menuToggle && navLinks) {
     menuToggle.addEventListener("pointerup", () => {
-      navLinks.classList.toggle("active");
+      const isOpen = navLinks.classList.toggle("active");
       menuToggle.classList.toggle("active");
+      menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
 
-    document.querySelectorAll("#nav-links a").forEach(link => {
+    document.querySelectorAll("#nav-links a").forEach((link) => {
       link.addEventListener("click", () => {
         navLinks.classList.remove("active");
         menuToggle.classList.remove("active");
+        menuToggle.setAttribute("aria-expanded", "false");
       });
     });
   }
+
 
   const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.ads.vindmy";
   const APP_STORE_URL = "https://apps.apple.com/za/app/vindmy/id6761360162";
@@ -41,81 +98,152 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".getApp-btn, .cta-btn").forEach((btn) => {
     btn.href = storeUrl;
   });
+
+  initProductCarousel();
 });
 
-  const signupBtn = document.querySelector(".signup-btn");
-  if (signupBtn) {
-    signupBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      alert("Redirecting to Sign Up page...");
+function initProductCarousel() {
+  const root = document.querySelector(".product-carousel");
+  if (!root) return;
+
+  const track = root.querySelector(".product-strip-track");
+  const cards = Array.from(root.querySelectorAll(".product-card"));
+  if (!track || cards.length < 2) return;
+
+  track.removeAttribute("tabindex");
+
+  const intervalMs = Number(root.dataset.autoplay) || 3000;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const total = cards.length;
+  let index = Math.max(
+    0,
+    cards.findIndex((card) => card.classList.contains("is-active"))
+  );
+  let timer = null;
+
+  function shortestOffset(from, to) {
+    let diff = to - from;
+    if (diff > total / 2) diff -= total;
+    if (diff < -total / 2) diff += total;
+    return diff;
+  }
+
+  function poseFor(offset) {
+    if (reduceMotion) {
+      if (offset === 0) return "translate(-50%, -50%) scale(1)";
+      if (Math.abs(offset) === 1) {
+        return `translate(calc(-50% + ${offset * 70}%), -50%) scale(0.9)`;
+      }
+      return "translate(-50%, -50%) scale(0.8)";
+    }
+
+    if (offset === 0) {
+      return "translate(-50%, -50%) translateZ(80px) rotateY(0deg) scale(1)";
+    }
+    if (offset === -1) {
+      return "translate(-50%, -50%) translateX(-58%) translateZ(-90px) rotateY(42deg) scale(0.88)";
+    }
+    if (offset === 1) {
+      return "translate(-50%, -50%) translateX(58%) translateZ(-90px) rotateY(-42deg) scale(0.88)";
+    }
+    if (offset === -2) {
+      return "translate(-50%, -50%) translateX(-95%) translateZ(-180px) rotateY(55deg) scale(0.78)";
+    }
+    if (offset === 2) {
+      return "translate(-50%, -50%) translateX(95%) translateZ(-180px) rotateY(-55deg) scale(0.78)";
+    }
+    return "translate(-50%, -50%) translateZ(-260px) scale(0.7)";
+  }
+
+  function goTo(nextIndex) {
+    index = ((nextIndex % total) + total) % total;
+
+    cards.forEach((card, i) => {
+      const offset = shortestOffset(index, i);
+      const abs = Math.abs(offset);
+
+      card.classList.remove(
+        "is-active",
+        "is-prev",
+        "is-next",
+        "is-far-prev",
+        "is-far-next",
+        "is-visible"
+      );
+
+      if (abs <= 2) {
+        card.classList.add("is-visible");
+        card.removeAttribute("aria-hidden");
+      } else {
+        card.setAttribute("aria-hidden", "true");
+      }
+
+      if (offset === 0) card.classList.add("is-active");
+      else if (offset === -1) card.classList.add("is-prev");
+      else if (offset === 1) card.classList.add("is-next");
+      else if (offset === -2) card.classList.add("is-far-prev");
+      else if (offset === 2) card.classList.add("is-far-next");
+
+      card.style.transform = poseFor(abs > 2 ? (offset < 0 ? -3 : 3) : offset);
+      card.style.zIndex = String(10 - abs);
     });
   }
 
-function animateValue(id, start, end, duration) {
-  const obj = document.getElementById(id);
-  if (!obj) return;
-
-  const range = end - start;
-  if (range === 0) {
-    obj.textContent = end.toLocaleString();
-    return;
+  function next() {
+    goTo(index + 1);
   }
 
-  let stepTime = Math.abs(Math.floor(duration / range));
-  if (stepTime < 1) stepTime = 1;
+  function start() {
+    if (timer) return;
+    timer = window.setInterval(next, intervalMs);
+  }
 
-  let current = start;
-  const increment = end > start ? 1 : -1;
-  const timer = setInterval(function() {
-    current += increment;
-    obj.textContent = current.toLocaleString();
-    if (current === end) {
-      clearInterval(timer);
-    }
-  }, stepTime);
+  function stop() {
+    if (!timer) return;
+    window.clearInterval(timer);
+    timer = null;
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stop();
+    else start();
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) start();
+        else stop();
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(root);
+  } else {
+    start();
+  }
+
+  window.addEventListener("resize", () => goTo(index));
+  goTo(index);
 }
 
-window.onload = function() {
-  animateValue("tickets", 0, 15000000, 2000);
-  animateValue("cards", 0, 30000, 2000);
-};
-
-
-const faqItems = document.querySelectorAll('.faq-item');
-
-faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
-    if (!question) return;
-
-    question.addEventListener('click', () => {
-
-        faqItems.forEach(faq => {
-            if(faq !== item){
-                faq.classList.remove('active');
-            }
-        });
-
-        item.classList.toggle('active');
-    });
-});
 // Toggle sections
-document.querySelectorAll(".section-title").forEach(title => {
-    title.addEventListener("click", () => {
-        const content = title.nextElementSibling;
-        if (!content) return;
-        content.style.display =
-            content.style.display === "block" ? "none" : "block";
-    });
+document.querySelectorAll(".section-title").forEach((title) => {
+  title.addEventListener("click", () => {
+    const content = title.nextElementSibling;
+    if (!content) return;
+    content.style.display =
+      content.style.display === "block" ? "none" : "block";
+  });
 });
 
 // Toggle answers
-document.querySelectorAll(".question-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const answer = btn.nextElementSibling;
-        if (!answer) return;
-        answer.style.display =
-            answer.style.display === "block" ? "none" : "block";
-    });
+document.querySelectorAll(".question-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const answer = btn.nextElementSibling;
+    if (!answer) return;
+    answer.style.display =
+      answer.style.display === "block" ? "none" : "block";
+  });
 });
 
 function updateFaqSearch() {
@@ -130,11 +258,11 @@ function updateFaqSearch() {
   const searchTerm = faqSearchInput.value.trim().toLowerCase();
   let totalMatches = 0;
 
-  faqSections.forEach(section => {
+  faqSections.forEach((section) => {
     const questionButtons = Array.from(section.querySelectorAll(".question-btn"));
     let sectionHasMatch = false;
 
-    questionButtons.forEach(btn => {
+    questionButtons.forEach((btn) => {
       const answer = btn.nextElementSibling;
       const text = `${btn.textContent} ${answer ? answer.textContent : ""}`.toLowerCase();
       const matched = searchTerm === "" || text.includes(searchTerm);
@@ -163,10 +291,13 @@ function updateFaqSearch() {
 
   if (searchTerm === "") {
     faqSearchStatus.textContent = "Search questions by keyword";
+    faqSearchStatus.classList.add("sr-only");
   } else if (totalMatches === 0) {
     faqSearchStatus.textContent = "No matching FAQs found. Try another keyword.";
+    faqSearchStatus.classList.remove("sr-only");
   } else {
     faqSearchStatus.textContent = `${totalMatches} matching question${totalMatches === 1 ? "" : "s"} shown.`;
+    faqSearchStatus.classList.remove("sr-only");
   }
 }
 
@@ -190,26 +321,25 @@ window.addEventListener("load", () => {
   });
 });
 
- /* ==============================
-     AUTO-FILL FROM URL
-  ============================== */
-  document.addEventListener("DOMContentLoaded", () => {
-    const params = new URLSearchParams(window.location.search);
+/* ==============================
+   AUTO-FILL FROM URL
+============================== */
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const fields = ["name", "surname", "email", "mobile", "alias", "vindmyTag"];
 
-    const fields = ["name", "surname", "email", "mobile", "alias", "vindmyTag"];
-    fields.forEach((id) => {
-      const value = params.get(id);
-      const input = document.getElementById(id);
-      if (value && input) {
-        input.value = value;
-      }
-    });
+  fields.forEach((id) => {
+    const value = params.get(id);
+    const el = document.getElementById(id);
+    if (value && el) {
+      el.value = value;
+    }
+  });
 });
 
-  /* ==============================
-     FORM SUBMIT (ONLY ONCE)
-  ============================== */
-  
+/* ==============================
+   FORM SUBMIT
+============================== */
 document.addEventListener("DOMContentLoaded", () => {
   const supportFormJson = document.getElementById("supportForm");
 
@@ -217,7 +347,9 @@ document.addEventListener("DOMContentLoaded", () => {
     supportFormJson.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const submitButton = document.getElementById("submitButton") || supportFormJson.querySelector("button");
+      const submitButton =
+        document.getElementById("submitButton") ||
+        supportFormJson.querySelector("button");
       const supportStatus = document.getElementById("supportStatus");
 
       function showSupportStatus(type, message) {
@@ -225,9 +357,10 @@ document.addEventListener("DOMContentLoaded", () => {
           alert(message);
           return;
         }
-        const icon = type === "success"
-          ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-          : '<svg width="3" height="12" viewBox="0 0 4 16" fill="none"><rect x="0" y="0" width="4" height="10" rx="2" fill="#fff"/><rect x="0" y="13" width="4" height="3" rx="1.5" fill="#fff"/></svg>';
+        const icon =
+          type === "success"
+            ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+            : '<svg width="3" height="12" viewBox="0 0 4 16" fill="none"><rect x="0" y="0" width="4" height="10" rx="2" fill="#fff"/><rect x="0" y="13" width="4" height="3" rx="1.5" fill="#fff"/></svg>';
         supportStatus.className = `form-status status-${type}`;
         supportStatus.innerHTML = `<span class="status-icon">${icon}</span><span>${message}</span>`;
         supportStatus.hidden = false;
@@ -237,38 +370,27 @@ document.addEventListener("DOMContentLoaded", () => {
       if (supportStatus) supportStatus.hidden = true;
 
       try {
-        if (submitButton) {
-          submitButton.disabled = true;
-          submitButton.textContent = "Sending...";
-        }
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
 
         const formData = new FormData(supportFormJson);
 
         const captchaToken = formData.get("g-recaptcha-response");
         if (!captchaToken) {
           showSupportStatus("error", "Please complete the reCAPTCHA.");
-          if (submitButton) {
-            submitButton.disabled = false;
-            submitButton.textContent = "Submit Query";
-          }
           return;
         }
 
         const fileInput = document.getElementById("documents");
+        const uploadError = validateImageUploads(fileInput?.files, {
+          required: false,
+        });
+        if (uploadError) {
+          showSupportStatus("error", uploadError);
+          return;
+        }
+
         if (fileInput && fileInput.files.length > 0) {
-          const totalSize = Array.from(fileInput.files).reduce((sum, file) => sum + file.size, 0);
-          const MAX_SIZE = 40 * 1024 * 1024; // 40MB in bytes
-
-          if (totalSize > MAX_SIZE) {
-            showSupportStatus("error", "Total file size exceeds 40MB. Please reduce the number or size of files.");
-            if (submitButton) {
-              submitButton.disabled = false;
-              submitButton.textContent = "Submit Query";
-            }
-            return;
-          }
-
-          // Re-append files explicitly to ensure all are included
           formData.delete("documents");
           for (const file of fileInput.files) {
             formData.append("documents", file);
@@ -277,27 +399,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const response = await fetch("/support", {
           method: "POST",
-          // ⚠️ Do NOT set Content-Type — browser handles multipart boundary automatically
-          body: formData
+          body: formData,
         });
 
         const result = await response.json();
 
-if (response.ok) {
+        if (response.ok) {
           supportFormJson.reset();
           supportFormJson.hidden = true;
-          showSupportStatus("success", "Your query has been submitted successfully. Our team will get back to you shortly.");
+          showSupportStatus(
+            "success",
+            "Your query has been submitted successfully. Our team will get back to you shortly."
+          );
         } else {
-          showSupportStatus("error", result.error || "Failed to submit query.");
+          showSupportStatus(
+            "error",
+            result.error || result.message || "Failed to submit query."
+          );
         }
       } catch (error) {
         console.error(error);
-        showSupportStatus("error", "An error occurred while sending your query. Please try again.");
+        showSupportStatus(
+          "error",
+          "An error occurred while sending your query. Please try again."
+        );
       } finally {
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.textContent = "Submit Query";
-        }
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Query";
       }
     });
   }
@@ -307,12 +435,13 @@ if (response.ok) {
 
   function showVerificationStatus(type, message) {
     if (!verificationStatus) {
-      alert(message); // fallback if the banner element is ever missing
+      alert(message);
       return;
     }
-    const icon = type === "success"
-      ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-      : '<svg width="3" height="12" viewBox="0 0 4 16" fill="none"><rect x="0" y="0" width="4" height="10" rx="2" fill="#fff"/><rect x="0" y="13" width="4" height="3" rx="1.5" fill="#fff"/></svg>';
+    const icon =
+      type === "success"
+        ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : '<svg width="3" height="12" viewBox="0 0 4 16" fill="none"><rect x="0" y="0" width="4" height="10" rx="2" fill="#fff"/><rect x="0" y="13" width="4" height="3" rx="1.5" fill="#fff"/></svg>';
     verificationStatus.className = `form-status status-${type}`;
     verificationStatus.innerHTML = `<span class="status-icon">${icon}</span><span>${message}</span>`;
     verificationStatus.hidden = false;
@@ -323,76 +452,108 @@ if (response.ok) {
     verificationForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const submitButton = document.getElementById("submitBtn") || verificationForm.querySelector("button");
+      const submitButton =
+        document.getElementById("submitBtn") ||
+        verificationForm.querySelector("button");
 
       if (verificationStatus) verificationStatus.hidden = true;
 
       try {
-        if (submitButton) {
-          submitButton.disabled = true;
-          submitButton.textContent = "Sending...";
-        }
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
 
         const formData = new FormData(verificationForm);
 
-      const captchaToken = formData.get("g-recaptcha-response");
-      if (!captchaToken) {
-        showVerificationStatus("error", "Please complete the reCAPTCHA.");
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.textContent = "Submit Verification";
+        const captchaToken = formData.get("g-recaptcha-response");
+        if (!captchaToken) {
+          showVerificationStatus("error", "Please complete the reCAPTCHA.");
+          return;
         }
-        return;
-      }
 
-      const fileInput = document.getElementById("documents");
-      const files = fileInput ? Array.from(fileInput.files) : [];
-      const totalSize = files.reduce((sum, file) => sum + file.size, 0);
-      const MAX_SIZE = 40 * 1024 * 1024; // 40MB in bytes
-
-      if (totalSize > MAX_SIZE) {
-        showVerificationStatus("error", "Total file size exceeds 40MB. Please reduce the number or size of files.");
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.textContent = "Submit Verification";
+        const fileInput = document.getElementById("documents");
+        const uploadError = validateImageUploads(fileInput?.files, {
+          required: true,
+        });
+        if (uploadError) {
+          showVerificationStatus("error", uploadError);
+          return;
         }
-        return;
-      }
 
-      // Re-append files explicitly to ensure all are included
-      if (fileInput) {
         formData.delete("documents");
-        for (const file of files) {
+        for (const file of fileInput.files) {
           formData.append("documents", file);
         }
-      }
 
-      const response = await fetch("/verification", {
-        method: "POST",
-        // ⚠️ Do NOT set Content-Type header — browser handles multipart boundary automatically
-        body: formData
-      });
+        const response = await fetch("/verification", {
+          method: "POST",
+          body: formData,
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
         if (response.ok) {
           verificationForm.reset();
           verificationForm.hidden = true;
-          showVerificationStatus("success", "Your verification request has been submitted successfully. Our team will review it and be in touch shortly.");
+          showVerificationStatus(
+            "success",
+            "Your verification request has been submitted successfully. Our team will review it and be in touch shortly."
+          );
         } else {
-          showVerificationStatus("error", result.error || "Failed to submit verification request.");
+          showVerificationStatus(
+            "error",
+            result.error ||
+              result.message ||
+              "Failed to submit verification request."
+          );
         }
       } catch (error) {
         console.error(error);
-        showVerificationStatus("error", "An error occurred while sending your verification request. Please try again.");
+        showVerificationStatus(
+          "error",
+          "An error occurred while sending your verification request. Please try again."
+        );
       } finally {
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.textContent = "Submit Verification";
-        }
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Verification";
       }
     });
   }
-
 });
 
+document.querySelectorAll(".file-upload-input").forEach((input) => {
+  const status = input.parentElement.querySelector("[data-file-status]");
+  if (!status) {
+    return;
+  }
+
+  const idleLabel = status.textContent;
+
+  const updateFileStatus = () => {
+    const files = Array.from(input.files || []);
+    if (files.length === 0) {
+      status.textContent = idleLabel;
+    } else if (files.length === 1) {
+      status.textContent = files[0].name;
+    } else {
+      status.textContent = `${files.length} files selected`;
+    }
+  };
+
+  input.addEventListener("change", () => {
+    const err = validateImageUploads(input.files, {
+      required: input.hasAttribute("required"),
+    });
+    if (err) {
+      status.textContent = err;
+      input.value = "";
+      return;
+    }
+    updateFileStatus();
+  });
+
+  if (input.form) {
+    input.form.addEventListener("reset", () => {
+      setTimeout(updateFileStatus, 0);
+    });
+  }
+});

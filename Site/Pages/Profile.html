@@ -5,6 +5,9 @@
   <meta name="description" content="Vindmy helps users verify profiles, manage identity verification, and connect securely online." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vindmy - Digital Identity & Verification Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Michroma&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/styles.css" />
   <link rel="icon" href="/Images/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="/Images/favicon-32x32.png" />
@@ -46,20 +49,26 @@
     .example-link {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
-      margin-top: 4px;
-      background: none;
-      border: none;
-      padding: 0;
+      margin-top: 10px;
+      width: auto;
+      min-height: 0;
+      padding: 0.45rem 0.85rem;
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--primary);
       font-size: 0.88rem;
       font-weight: 600;
-      color: var(--primary);
+      font-family: inherit;
+      line-height: 1.2;
       cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 2px;
+      text-decoration: none;
     }
     .example-link:hover {
-      color: var(--secondary);
+      background: var(--primary);
+      color: #fff;
     }
 
     .example-modal-overlay {
@@ -70,18 +79,20 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
-      z-index: 1000;
+      z-index: 2000;
     }
     .example-modal-overlay[hidden] {
       display: none;
     }
-    .example-modal {
+    .example-modal-frame {
       position: relative;
+      max-width: 420px;
+      width: 100%;
+    }
+    .example-modal {
       background: #ffffff;
       border-radius: 14px;
       padding: 16px;
-      max-width: 420px;
-      width: 100%;
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: 0 20px 60px rgba(0,0,0,0.35);
@@ -94,14 +105,15 @@
     }
     .example-modal-close {
       position: absolute;
-      top: -14px;
-      right: -14px;
-      width: 32px;
-      height: 32px;
+      top: -12px;
+      right: -12px;
+      z-index: 1;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: var(--gradient-button);
+      background: var(--color-accent, #06B6D4);
       color: #fff;
-      border: none;
+      border: 2px solid #fff;
       font-size: 1.1rem;
       line-height: 1;
       cursor: pointer;
@@ -161,20 +173,20 @@
 
   <nav class="navbar">
   <div class="container nav-container">
-    <div class="logo">
-      <img src="../Images/vindmy_logo.png" alt="Vindmy Logo">
-      <span class="logo-text">VINDMY</span>
-    </div>
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false" type="button">
+    <a class="logo" href="../index.html">
+      <img src="../Images/vindmy_logo.png" alt="Vindmy Logo" />
+      <span class="logo-text brand-name">VINDMY</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-controls="nav-links" aria-expanded="false" type="button">
       <span></span>
       <span></span>
       <span></span>
     </button>
-        <ul class="nav-links" id="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="../index.html">Home</a></li>
       <li><a href="about.html">About Us</a></li>
       <li><a href="Contact.html">Contact</a></li>
-      <li><a href="Profile.html">Profile Verification</a></li>
+      <li><a href="Profile.html" aria-current="page">Profile Verification</a></li>
       <li><a href="FAQ.html">FAQ</a></li>
       <li><a href="HowTo.html">How to</a></li>
     </ul>
@@ -197,9 +209,8 @@
         <label for="surname">Surname</label>
         <input type="text" id="surname" name="surname" placeholder="Enter your surname" required>
 
-        <label for="identity">Email address</label>
-        <input type="text" id="email" name="email" placeholder="Enter your email address" required
-        >
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
         <label for="mobile">Mobile number</label>
         <input type="text" id="mobile" name="mobile" placeholder="Enter your mobile number" required>
 
@@ -209,7 +220,7 @@
         <label for="vindmyTag">Vindmy Tag</label>
         <input type="text" id="vindmyTag" name="vindmyTag" placeholder="Enter Vindmy tag" required>
 
-        <label for="documents">Supporting Documents</label>
+        <label for="documents">Supporting photos (max 3, 20MB total)</label>
         <div class="upload-instructions">
           <p class="upload-instructions-intro">Please upload the following photos:</p>
           <ol>
@@ -226,7 +237,19 @@
             </li>
           </ol>
         </div>
-        <input type="file" id="documents" name="documents" multiple required>
+        <div class="file-upload">
+          <input
+            type="file"
+            id="documents"
+            name="documents"
+            class="file-upload-input"
+            accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.jpg,.jpeg,.png,.webp,.heic,.heif"
+            multiple
+            required
+          >
+          <label for="documents" class="file-upload-button">Upload photos (max 3, 20MB total)</label>
+          <span class="file-upload-status" data-file-status>No files chosen</span>
+        </div>
 
         <div class="consent">
           <input type="checkbox" id="consent" name="consent" required>
@@ -257,10 +280,10 @@
       <h4>Company</h4>
       <ul>
         <li><a href="../index.html">Home</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="Contact.html">Contact</a></li>
-      <li><a href="Profile.html">Profile Verification</a></li>
-      <li><a href="FAQ.html">FAQ</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+        <li><a href="Profile.html">Profile Verification</a></li>
+        <li><a href="FAQ.html">FAQ</a></li>
         <li><a href="HowTo.html">How to</a></li>
       </ul>
     </div>
@@ -269,41 +292,37 @@
       <ul>
         <li><a href="ts&cs.html">Terms & Conditions</a></li>
         <li><a href="privacy.html">Privacy Policy</a></li>
-        <li><a href="../Pages/Contact.html">Help</a></li>
-        <li><a href="../Pages/DeleteAccount.html ">Delete My Account</a></li>
+        <li><a href="Contact.html">Help</a></li>
+        <li><a href="DeleteAccount.html">Delete My Account</a></li>
       </ul>
     </div>
     <div>
       <h4>Follow Us</h4>
       <div class="social-icons">
         <a href="https://www.facebook.com/profile.php?id=61593282067271" target="_blank" rel="noopener noreferrer"><img src="../Images/fb.svg" alt="Facebook"></a>
-        <a href="https://www.instagram.com/vindmyofficial?igsi=MTB6d3ZuY292amE4NA==" target="_blank" rel="noopener noreferrer">
-          <img src="../Images/insta.svg" alt="Instagram">
-        </a>
+        <a href="https://www.instagram.com/vindmyofficial?igsh=MTB6d3ZuY292amE4NA==" target="_blank" rel="noopener noreferrer"><img src="../Images/insta.svg" alt="Instagram"></a>
         <a href="https://www.tiktok.com/@vindmyofficial?_r=1&_t=ZS-99CKMimt1S1" target="_blank" rel="noopener noreferrer"><img src="../Images/tiktok.svg" alt="TikTok"></a>
         <img src="../Images/x.svg" alt="Twitter">
         <a href="https://www.linkedin.com/company/vindmy/" target="_blank" rel="noopener noreferrer"><img src="../Images/linkedin.svg" alt="LinkedIn"></a>
       </div>
-
       <div class="store-buttons">
-        <a href="https://play.google.com/store/apps/details?id=com.ads.vindmy" target="_blank" rel="noopener noreferrer">
-          <img src="../Images/googleplay.svg" alt="Google Play">
-        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.ads.vindmy" target="_blank" rel="noopener noreferrer"><img src="../Images/googleplay.svg" alt="Google Play"></a>
         <a href="https://apps.apple.com/za/app/vindmy/id6761360162" target="_blank" rel="noopener noreferrer"><img src="../Images/apple.svg" alt="App Store"></a>
       </div>
     </div>
   </div>
   <div class="footer-divider"></div><br>
-
-  <p>© 2026 Vindmy. All rights reserved.</p>
+  <p>© 2026 <span class="brand-name">Vindmy</span>. All rights reserved.</p>
 </footer>
 
 <script src="../js/script.js"></script>
   <!-- Licence Disc Example Modal -->
   <div class="example-modal-overlay" id="exampleModalOverlay" hidden>
-    <div class="example-modal">
+    <div class="example-modal-frame">
       <button type="button" class="example-modal-close" id="exampleModalClose" aria-label="Close">✕</button>
-      <img src="../Images/licence-disc-example.png" alt="Example: hand with four fingers behind the licence disc, showing both clearly in one photo">
+      <div class="example-modal">
+        <img src="../Images/licence-disc-example.png" alt="Example: hand with four fingers behind the licence disc, showing both clearly in one photo">
+      </div>
     </div>
   </div>
 

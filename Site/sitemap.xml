@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-<url>
-
-<loc>https://vindmy.com/</loc>
-
-</url>
-
-<url>
-
-<loc>https://vindmy.com/about.html</loc>
-
-</url>
-
-<url>
-
-<loc>https://vindmy.com/contact.html</loc>
-
-</url>
-
+  <url>
+    <loc>https://vindmy.com/</loc>
+  </url>
+  <url>
+    <loc>https://vindmy.com/Pages/about.html</loc>
+  </url>
+  <url>
+    <loc>https://vindmy.com/Pages/Contact.html</loc>
+  </url>
+  <url>
+    <loc>https://vindmy.com/Pages/Profile.html</loc>
+  </url>
+  <url>
+    <loc>https://vindmy.com/Pages/FAQ.html</loc>
+  </url>
+  <url>
+    <loc>https://vindmy.com/Pages/HowTo.html</loc>
+  </url>
+  <url>
+    <loc>https://vindmy.com/Pages/DeleteAccount.html</loc>
+  </url>
+  <url>
+    <loc>https://vindmy.com/Pages/privacy.html</loc>
+  </url>
+  <url>
+    <loc>https://vindmy.com/Pages/ts&amp;cs.html</loc>
+  </url>
 </urlset>

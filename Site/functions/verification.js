@@ -1,27 +1,32 @@
+import {
+  collectImages,
+  escapeHtml,
+  filesToAttachments,
+  requireEnv,
+} from "./_utils.js";
+
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // Parse as FormData — not JSON (frontend now sends multipart/form-data)
+  const envError = requireEnv(env, ["RESEND_API_KEY", "RECAPTCHA_SECRET_KEY"]);
+  if (envError) return envError;
+
   const formData = await request.formData();
 
-  const name      = formData.get("name");
-  const surname   = formData.get("surname");
-  const email     = formData.get("email");
-  const mobile    = formData.get("mobile");
-  const alias     = formData.get("alias");
+  const name = formData.get("name");
+  const surname = formData.get("surname");
+  const email = formData.get("email");
+  const mobile = formData.get("mobile");
+  const alias = formData.get("alias");
   const vindmyTag = formData.get("vindmyTag");
- 
- 
 
-  // Validation — moved to TOP before anything else runs
-  if (!name || !surname || !email || !mobile || !alias || !vindmyTag ) {
+  if (!name || !surname || !email || !mobile || !alias || !vindmyTag) {
     return Response.json(
       { error: "Missing required fields" },
       { status: 400 }
     );
   }
 
-  // Verify reCAPTCHA token before doing expensive work
   const captchaToken = formData.get("g-recaptcha-response");
   if (!captchaToken) {
     return Response.json({ error: "Missing reCAPTCHA token" }, { status: 400 });
@@ -37,81 +42,52 @@ export async function onRequestPost(context) {
       method: "POST",
       body: verifyData,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
     }
   );
 
   const verifyResult = await verifyResponse.json();
 
   if (!verifyResult.success) {
-    return new Response(
-      JSON.stringify({
-        success: false,
-        message: "reCAPTCHA verification failed."
-      }),
-      {
-        status: 400,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
+    return Response.json(
+      { error: "reCAPTCHA verification failed." },
+      { status: 400 }
     );
   }
 
-  // Convert uploaded files to Base64 for Resend attachments
-  // Cloudflare Workers have no Node.js Buffer — use chunked Uint8Array + btoa instead
-  const files = formData.getAll("documents");
-  const attachments = await Promise.all(
-    files
-      .filter(file => file && file.size > 0) // ignore empty file inputs
-      .map(async (file) => {
-        const arrayBuffer = await file.arrayBuffer();
-        const uint8Array  = new Uint8Array(arrayBuffer);
+  const uploadResult = collectImages(formData, { required: true });
+  if (uploadResult.error) return uploadResult.error;
 
-        // Process in chunks to avoid call stack overflow on large files
-        const chunkSize = 8192;
-        let binary = "";
-        for (let i = 0; i < uint8Array.length; i += chunkSize) {
-          const chunk = uint8Array.subarray(i, i + chunkSize);
-          binary += String.fromCharCode(...chunk);
-        }
-
-        return {
-          filename: file.name,
-          content:  btoa(binary), // Resend expects Base64-encoded content
-        };
-      })
-  );
+  const attachments = await filesToAttachments(uploadResult.files);
 
   const resendResponse = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
-      Authorization:  `Bearer ${env.RESEND_API_KEY}`,
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from:     "noreply@vindmy.com",
-      to:       ["admin@vindmy.com"],
-      reply_to: email,
-      subject:  `Verification Request - ${alias}`,
+      from: "noreply@vindmy.com",
+      to: ["admin@vindmy.com"],
+      reply_to: String(email),
+      subject: `Verification Request - ${String(alias)}`,
       html: `
         <h2>Verification Request</h2>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Surname:</b> ${surname}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Mobile:</b> ${mobile}</p>
-        <p><b>Alias:</b> ${alias}</p>
-        <p><b>Vindmy Tag:</b> ${vindmyTag}</p>
+        <p><b>Name:</b> ${escapeHtml(name)}</p>
+        <p><b>Surname:</b> ${escapeHtml(surname)}</p>
+        <p><b>Email:</b> ${escapeHtml(email)}</p>
+        <p><b>Mobile:</b> ${escapeHtml(mobile)}</p>
+        <p><b>Alias:</b> ${escapeHtml(alias)}</p>
+        <p><b>Vindmy Tag:</b> ${escapeHtml(vindmyTag)}</p>
         <hr>
       `,
-      attachments, // array of { filename, content } — empty array if no files uploaded
+      attachments,
     }),
   });
 
   const data = await resendResponse.json();
 
-  // Return a proper error response if Resend rejects the request
   if (!resendResponse.ok) {
     return Response.json(
       { error: data.message || "Failed to send email" },
