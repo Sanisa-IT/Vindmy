@@ -1,22 +1,31 @@
-# Vindmy Website Foundation
+# Vindmy Website
 
-A simple starter website scaffold using HTML, CSS, and JavaScript.
+Marketing site for Vindmy (HTML/CSS/JS) hosted on Cloudflare Pages, with form endpoints as Pages Functions.
 
-## Files
+## Layout
 
-- `index.html` — main page structure
-- `css/styles.css` — base styling and responsive layout
-- `js/script.js` — interactive sample behavior
+- `Site/index.html` — homepage
+- `Site/Pages/` — secondary pages (Contact, Profile verification, FAQ, etc.)
+- `Site/css/styles.css` / `Site/js/script.js`
+- `Site/functions/support.js` — `POST /support`
+- `Site/functions/verification.js` — `POST /verification`
+- `Site/functions/_utils.js` — shared upload limits, HTML escaping
 
-## Getting started
+## Cloudflare env vars
 
-1. Open `index.html` in your browser.
-2. Edit the HTML to add content.
-3. Update `css/styles.css` for layout and design.
-4. Add new scripts to `js/script.js`.
+Set these in Pages → Settings → Environment variables:
 
-## Next steps
+- `RESEND_API_KEY`
+- `RECAPTCHA_SECRET_KEY`
 
-- Add your own page sections and content
-- Create reusable CSS components
-- Build out JavaScript features such as navigation, animations, or data loading
+## Uploads
+
+Forms accept images only (JPG, PNG, WEBP, HEIC), max **3** files, **20MB** total. Enforced client- and server-side.
+
+## Local preview
+
+```bash
+cd Site && python3 -m http.server 8766
+```
+
+Form email sending requires Cloudflare Pages Functions + the env vars above.

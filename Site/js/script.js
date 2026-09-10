@@ -1,55 +1,94 @@
+const MAX_IMAGES = 3;
+const MAX_TOTAL_BYTES = 20 * 1024 * 1024; // 20MB
+const ALLOWED_EXTENSIONS = new Set([
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".heic",
+  ".heif",
+]);
+
+function fileExtension(name) {
+  const match = String(name || "").toLowerCase().match(/\.[a-z0-9]+$/);
+  return match ? match[0] : "";
+}
+
+function isAllowedImage(file) {
+  const type = (file.type || "").toLowerCase();
+  const ext = fileExtension(file.name);
+  const mimeOk = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/heic",
+    "image/heif",
+  ].includes(type);
+  return mimeOk || ALLOWED_EXTENSIONS.has(ext);
+}
+
+function validateImageUploads(files, { required = false } = {}) {
+  const list = Array.from(files || []).filter((file) => file && file.size > 0);
+
+  if (required && list.length === 0) {
+    return "Please upload at least one picture (max 3, 20MB total).";
+  }
+
+  if (list.length > MAX_IMAGES) {
+    return "You can upload a maximum of 3 pictures.";
+  }
+
+  for (const file of list) {
+    if (!isAllowedImage(file)) {
+      return "Only image files are allowed (JPG, PNG, WEBP, HEIC).";
+    }
+  }
+
+  const totalSize = list.reduce((sum, file) => sum + file.size, 0);
+  if (totalSize > MAX_TOTAL_BYTES) {
+    return "Total picture size exceeds 20MB. Please reduce the size or number of pictures.";
+  }
+
+  return null;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.getElementById("menu-toggle");
   const navLinks = document.getElementById("nav-links");
 
-  if (!menuToggle || !navLinks) return;
-
-  menuToggle.addEventListener("pointerup", () => {
-    navLinks.classList.toggle("active");
-    menuToggle.classList.toggle("active");
-    console.log("Hamburger tapped!");
-  });
-
-  document.querySelectorAll("#nav-links a").forEach(link => {
-    link.addEventListener("click", () => {
-      navLinks.classList.remove("active");
-      menuToggle.classList.remove("active");
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener("pointerup", () => {
+      const isOpen = navLinks.classList.toggle("active");
+      menuToggle.classList.toggle("active");
+      menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
-  });
+
+    document.querySelectorAll("#nav-links a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+        menuToggle.classList.remove("active");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
 });
 
-const faqItems = document.querySelectorAll('.faq-item');
-
-faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
-
-    question.addEventListener('click', () => {
-
-        faqItems.forEach(faq => {
-            if(faq !== item){
-                faq.classList.remove('active');
-            }
-        });
-
-        item.classList.toggle('active');
-    });
-});
 // Toggle sections
-document.querySelectorAll(".section-title").forEach(title => {
-    title.addEventListener("click", () => {
-        const content = title.nextElementSibling;
-        content.style.display =
-            content.style.display === "block" ? "none" : "block";
-    });
+document.querySelectorAll(".section-title").forEach((title) => {
+  title.addEventListener("click", () => {
+    const content = title.nextElementSibling;
+    content.style.display =
+      content.style.display === "block" ? "none" : "block";
+  });
 });
 
 // Toggle answers
-document.querySelectorAll(".question-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const answer = btn.nextElementSibling;
-        answer.style.display =
-            answer.style.display === "block" ? "none" : "block";
-    });
+document.querySelectorAll(".question-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const answer = btn.nextElementSibling;
+    answer.style.display =
+      answer.style.display === "block" ? "none" : "block";
+  });
 });
 
 function updateFaqSearch() {
@@ -64,11 +103,11 @@ function updateFaqSearch() {
   const searchTerm = faqSearchInput.value.trim().toLowerCase();
   let totalMatches = 0;
 
-  faqSections.forEach(section => {
+  faqSections.forEach((section) => {
     const questionButtons = Array.from(section.querySelectorAll(".question-btn"));
     let sectionHasMatch = false;
 
-    questionButtons.forEach(btn => {
+    questionButtons.forEach((btn) => {
       const answer = btn.nextElementSibling;
       const text = `${btn.textContent} ${answer ? answer.textContent : ""}`.toLowerCase();
       const matched = searchTerm === "" || text.includes(searchTerm);
@@ -127,30 +166,25 @@ window.addEventListener("load", () => {
   });
 });
 
- /* ==============================
-     AUTO-FILL FROM URL
-  ============================== */
-  document.addEventListener("DOMContentLoaded", () => {
-    const params = new URLSearchParams(window.location.search);
+/* ==============================
+   AUTO-FILL FROM URL
+============================== */
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const fields = ["name", "surname", "email", "mobile", "alias", "vindmyTag"];
 
-    const name = params.get("name");
-    const surname = params.get("surname");
-    const email = params.get("email");
-    const mobile = params.get("mobile");
-    const alias = params.get("alias");
-    const vindmyTag = params.get("vindmyTag");
-    if (name) document.getElementById("name").value = name;
-    if (surname) document.getElementById("surname").value = surname;
-    if (email) document.getElementById("email").value = email;
-    if (mobile) document.getElementById("mobile").value = mobile;
-    if (alias) document.getElementById("alias").value = alias;
-    if (vindmyTag) document.getElementById("vindmyTag").value = vindmyTag;
+  fields.forEach((id) => {
+    const value = params.get(id);
+    const el = document.getElementById(id);
+    if (value && el) {
+      el.value = value;
+    }
+  });
 });
 
-  /* ==============================
-     FORM SUBMIT (ONLY ONCE)
-  ============================== */
-  
+/* ==============================
+   FORM SUBMIT
+============================== */
 document.addEventListener("DOMContentLoaded", () => {
   const supportFormJson = document.getElementById("supportForm");
 
@@ -158,7 +192,9 @@ document.addEventListener("DOMContentLoaded", () => {
     supportFormJson.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const submitButton = document.getElementById("submitButton") || supportFormJson.querySelector("button");
+      const submitButton =
+        document.getElementById("submitButton") ||
+        supportFormJson.querySelector("button");
       const supportStatus = document.getElementById("supportStatus");
 
       function showSupportStatus(type, message) {
@@ -166,9 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
           alert(message);
           return;
         }
-        const icon = type === "success"
-          ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-          : '<svg width="3" height="12" viewBox="0 0 4 16" fill="none"><rect x="0" y="0" width="4" height="10" rx="2" fill="#fff"/><rect x="0" y="13" width="4" height="3" rx="1.5" fill="#fff"/></svg>';
+        const icon =
+          type === "success"
+            ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+            : '<svg width="3" height="12" viewBox="0 0 4 16" fill="none"><rect x="0" y="0" width="4" height="10" rx="2" fill="#fff"/><rect x="0" y="13" width="4" height="3" rx="1.5" fill="#fff"/></svg>';
         supportStatus.className = `form-status status-${type}`;
         supportStatus.innerHTML = `<span class="status-icon">${icon}</span><span>${message}</span>`;
         supportStatus.hidden = false;
@@ -186,24 +223,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const captchaToken = formData.get("g-recaptcha-response");
         if (!captchaToken) {
           showSupportStatus("error", "Please complete the reCAPTCHA.");
-          submitButton.disabled = false;
-          submitButton.textContent = "Submit Query";
           return;
         }
 
         const fileInput = document.getElementById("documents");
+        const uploadError = validateImageUploads(fileInput?.files, {
+          required: false,
+        });
+        if (uploadError) {
+          showSupportStatus("error", uploadError);
+          return;
+        }
+
         if (fileInput && fileInput.files.length > 0) {
-          const totalSize = Array.from(fileInput.files).reduce((sum, file) => sum + file.size, 0);
-          const MAX_SIZE = 40 * 1024 * 1024; // 40MB in bytes
-
-          if (totalSize > MAX_SIZE) {
-            showSupportStatus("error", "Total file size exceeds 40MB. Please reduce the number or size of files.");
-            submitButton.disabled = false;
-            submitButton.textContent = "Submit Query";
-            return;
-          }
-
-          // Re-append files explicitly to ensure all are included
           formData.delete("documents");
           for (const file of fileInput.files) {
             formData.append("documents", file);
@@ -212,22 +244,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const response = await fetch("/support", {
           method: "POST",
-          // ⚠️ Do NOT set Content-Type — browser handles multipart boundary automatically
-          body: formData
+          body: formData,
         });
 
         const result = await response.json();
 
-if (response.ok) {
+        if (response.ok) {
           supportFormJson.reset();
           supportFormJson.hidden = true;
-          showSupportStatus("success", "Your query has been submitted successfully. Our team will get back to you shortly.");
+          showSupportStatus(
+            "success",
+            "Your query has been submitted successfully. Our team will get back to you shortly."
+          );
         } else {
-          showSupportStatus("error", result.error || "Failed to submit query.");
+          showSupportStatus(
+            "error",
+            result.error || result.message || "Failed to submit query."
+          );
         }
       } catch (error) {
         console.error(error);
-        showSupportStatus("error", "An error occurred while sending your query. Please try again.");
+        showSupportStatus(
+          "error",
+          "An error occurred while sending your query. Please try again."
+        );
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = "Submit Query";
@@ -240,12 +280,13 @@ if (response.ok) {
 
   function showVerificationStatus(type, message) {
     if (!verificationStatus) {
-      alert(message); // fallback if the banner element is ever missing
+      alert(message);
       return;
     }
-    const icon = type === "success"
-      ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-      : '<svg width="3" height="12" viewBox="0 0 4 16" fill="none"><rect x="0" y="0" width="4" height="10" rx="2" fill="#fff"/><rect x="0" y="13" width="4" height="3" rx="1.5" fill="#fff"/></svg>';
+    const icon =
+      type === "success"
+        ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : '<svg width="3" height="12" viewBox="0 0 4 16" fill="none"><rect x="0" y="0" width="4" height="10" rx="2" fill="#fff"/><rect x="0" y="13" width="4" height="3" rx="1.5" fill="#fff"/></svg>';
     verificationStatus.className = `form-status status-${type}`;
     verificationStatus.innerHTML = `<span class="status-icon">${icon}</span><span>${message}</span>`;
     verificationStatus.hidden = false;
@@ -256,7 +297,9 @@ if (response.ok) {
     verificationForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const submitButton = document.getElementById("submitBtn") || verificationForm.querySelector("button");
+      const submitButton =
+        document.getElementById("submitBtn") ||
+        verificationForm.querySelector("button");
 
       if (verificationStatus) verificationStatus.hidden = true;
 
@@ -266,56 +309,60 @@ if (response.ok) {
 
         const formData = new FormData(verificationForm);
 
-      const captchaToken = formData.get("g-recaptcha-response");
-      if (!captchaToken) {
-        showVerificationStatus("error", "Please complete the reCAPTCHA.");
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit Verification";
-        return;
-      }
+        const captchaToken = formData.get("g-recaptcha-response");
+        if (!captchaToken) {
+          showVerificationStatus("error", "Please complete the reCAPTCHA.");
+          return;
+        }
 
-      const files = document.getElementById("documents").files;
-      const totalSize = Array.from(files).reduce((sum, file) => sum + file.size, 0);
-      const MAX_SIZE = 40 * 1024 * 1024; // 40MB in bytes
+        const fileInput = document.getElementById("documents");
+        const uploadError = validateImageUploads(fileInput?.files, {
+          required: true,
+        });
+        if (uploadError) {
+          showVerificationStatus("error", uploadError);
+          return;
+        }
 
-      if (totalSize > MAX_SIZE) {
-        showVerificationStatus("error", "Total file size exceeds 40MB. Please reduce the number or size of files.");
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit Verification";
-        return;
-      }
+        formData.delete("documents");
+        for (const file of fileInput.files) {
+          formData.append("documents", file);
+        }
 
-      // Re-append files explicitly to ensure all are included
-      formData.delete("documents");
-      for (const file of files) {
-        formData.append("documents", file);
-      }
+        const response = await fetch("/verification", {
+          method: "POST",
+          body: formData,
+        });
 
-      const response = await fetch("/verification", {
-        method: "POST",
-        // ⚠️ Do NOT set Content-Type header — browser handles multipart boundary automatically
-        body: formData
-      });
-
-      const result = await response.json();
+        const result = await response.json();
 
         if (response.ok) {
           verificationForm.reset();
           verificationForm.hidden = true;
-          showVerificationStatus("success", "Your verification request has been submitted successfully. Our team will review it and be in touch shortly.");
+          showVerificationStatus(
+            "success",
+            "Your verification request has been submitted successfully. Our team will review it and be in touch shortly."
+          );
         } else {
-          showVerificationStatus("error", result.error || "Failed to submit verification request.");
+          showVerificationStatus(
+            "error",
+            result.error ||
+              result.message ||
+              "Failed to submit verification request."
+          );
         }
       } catch (error) {
         console.error(error);
-        showVerificationStatus("error", "An error occurred while sending your verification request. Please try again.");
+        showVerificationStatus(
+          "error",
+          "An error occurred while sending your verification request. Please try again."
+        );
       } finally {
         submitButton.disabled = false;
         submitButton.textContent = "Submit Verification";
       }
     });
   }
-
 });
 
 document.querySelectorAll(".file-upload-input").forEach((input) => {
@@ -337,11 +384,21 @@ document.querySelectorAll(".file-upload-input").forEach((input) => {
     }
   };
 
-  input.addEventListener("change", updateFileStatus);
+  input.addEventListener("change", () => {
+    const err = validateImageUploads(input.files, {
+      required: input.hasAttribute("required"),
+    });
+    if (err) {
+      status.textContent = err;
+      input.value = "";
+      return;
+    }
+    updateFileStatus();
+  });
+
   if (input.form) {
     input.form.addEventListener("reset", () => {
       setTimeout(updateFileStatus, 0);
     });
   }
 });
-
