@@ -97,10 +97,13 @@ function updateFaqSearch() {
 
   if (searchTerm === "") {
     faqSearchStatus.textContent = "Search questions by keyword";
+    faqSearchStatus.classList.add("sr-only");
   } else if (totalMatches === 0) {
     faqSearchStatus.textContent = "No matching FAQs found. Try another keyword.";
+    faqSearchStatus.classList.remove("sr-only");
   } else {
     faqSearchStatus.textContent = `${totalMatches} matching question${totalMatches === 1 ? "" : "s"} shown.`;
+    faqSearchStatus.classList.remove("sr-only");
   }
 }
 
@@ -313,5 +316,32 @@ if (response.ok) {
     });
   }
 
+});
+
+document.querySelectorAll(".file-upload-input").forEach((input) => {
+  const status = input.parentElement.querySelector("[data-file-status]");
+  if (!status) {
+    return;
+  }
+
+  const idleLabel = status.textContent;
+
+  const updateFileStatus = () => {
+    const files = Array.from(input.files || []);
+    if (files.length === 0) {
+      status.textContent = idleLabel;
+    } else if (files.length === 1) {
+      status.textContent = files[0].name;
+    } else {
+      status.textContent = `${files.length} files selected`;
+    }
+  };
+
+  input.addEventListener("change", updateFileStatus);
+  if (input.form) {
+    input.form.addEventListener("reset", () => {
+      setTimeout(updateFileStatus, 0);
+    });
+  }
 });
 

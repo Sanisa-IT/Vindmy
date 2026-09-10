@@ -49,20 +49,26 @@
     .example-link {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
-      margin-top: 4px;
-      background: none;
-      border: none;
-      padding: 0;
+      margin-top: 10px;
+      width: auto;
+      min-height: 0;
+      padding: 0.45rem 0.85rem;
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--primary);
       font-size: 0.88rem;
       font-weight: 600;
-      color: var(--primary);
+      font-family: inherit;
+      line-height: 1.2;
       cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 2px;
+      text-decoration: none;
     }
     .example-link:hover {
-      color: var(--secondary);
+      background: var(--primary);
+      color: #fff;
     }
 
     .example-modal-overlay {
@@ -73,18 +79,20 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
-      z-index: 1000;
+      z-index: 2000;
     }
     .example-modal-overlay[hidden] {
       display: none;
     }
-    .example-modal {
+    .example-modal-frame {
       position: relative;
+      max-width: 420px;
+      width: 100%;
+    }
+    .example-modal {
       background: #ffffff;
       border-radius: 14px;
       padding: 16px;
-      max-width: 420px;
-      width: 100%;
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: 0 20px 60px rgba(0,0,0,0.35);
@@ -97,14 +105,15 @@
     }
     .example-modal-close {
       position: absolute;
-      top: -14px;
-      right: -14px;
-      width: 32px;
-      height: 32px;
+      top: -12px;
+      right: -12px;
+      z-index: 1;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: var(--gradient-button);
+      background: var(--color-accent, #06B6D4);
       color: #fff;
-      border: none;
+      border: 2px solid #fff;
       font-size: 1.1rem;
       line-height: 1;
       cursor: pointer;
@@ -229,7 +238,11 @@
             </li>
           </ol>
         </div>
-        <input type="file" id="documents" name="documents" multiple required>
+        <div class="file-upload">
+          <input type="file" id="documents" name="documents" class="file-upload-input" multiple required>
+          <label for="documents" class="file-upload-button">Upload photos</label>
+          <span class="file-upload-status" data-file-status>No files chosen</span>
+        </div>
 
         <div class="consent">
           <input type="checkbox" id="consent" name="consent" required>
@@ -298,9 +311,11 @@
 <script src="../js/script.js"></script>
   <!-- Licence Disc Example Modal -->
   <div class="example-modal-overlay" id="exampleModalOverlay" hidden>
-    <div class="example-modal">
+    <div class="example-modal-frame">
       <button type="button" class="example-modal-close" id="exampleModalClose" aria-label="Close">✕</button>
-      <img src="../Images/licence-disc-example.png" alt="Example: hand with four fingers behind the licence disc, showing both clearly in one photo">
+      <div class="example-modal">
+        <img src="../Images/licence-disc-example.png" alt="Example: hand with four fingers behind the licence disc, showing both clearly in one photo">
+      </div>
     </div>
   </div>
 

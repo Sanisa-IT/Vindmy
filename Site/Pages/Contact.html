@@ -134,13 +134,18 @@
         <textarea id="message" name="message" rows="5" required></textarea>
 
         <label for="documents">Attachments</label>
-        <input
-  type="file"
-  id="documents"
-  name="documents"
-  accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-  multiple
-/>
+        <div class="file-upload">
+          <input
+            type="file"
+            id="documents"
+            name="documents"
+            class="file-upload-input"
+            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+            multiple
+          />
+          <label for="documents" class="file-upload-button">Attach files</label>
+          <span class="file-upload-status" data-file-status>No files chosen</span>
+        </div>
 
         <div class="consent">
           <input type="checkbox" id="consent" name="consent" required>
