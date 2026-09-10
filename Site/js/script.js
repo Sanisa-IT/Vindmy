@@ -71,7 +71,133 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  initProductCarousel();
 });
+
+function initProductCarousel() {
+  const root = document.querySelector(".product-carousel");
+  if (!root) return;
+
+  const track = root.querySelector(".product-strip-track");
+  const cards = Array.from(root.querySelectorAll(".product-card"));
+  if (!track || cards.length < 2) return;
+
+  track.removeAttribute("tabindex");
+
+  const intervalMs = Number(root.dataset.autoplay) || 3000;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const total = cards.length;
+  let index = Math.max(
+    0,
+    cards.findIndex((card) => card.classList.contains("is-active"))
+  );
+  let timer = null;
+
+  function shortestOffset(from, to) {
+    let diff = to - from;
+    if (diff > total / 2) diff -= total;
+    if (diff < -total / 2) diff += total;
+    return diff;
+  }
+
+  function poseFor(offset) {
+    if (reduceMotion) {
+      if (offset === 0) return "translate(-50%, -50%) scale(1)";
+      if (Math.abs(offset) === 1) {
+        return `translate(calc(-50% + ${offset * 70}%), -50%) scale(0.9)`;
+      }
+      return "translate(-50%, -50%) scale(0.8)";
+    }
+
+    if (offset === 0) {
+      return "translate(-50%, -50%) translateZ(80px) rotateY(0deg) scale(1)";
+    }
+    if (offset === -1) {
+      return "translate(-50%, -50%) translateX(-58%) translateZ(-90px) rotateY(42deg) scale(0.88)";
+    }
+    if (offset === 1) {
+      return "translate(-50%, -50%) translateX(58%) translateZ(-90px) rotateY(-42deg) scale(0.88)";
+    }
+    if (offset === -2) {
+      return "translate(-50%, -50%) translateX(-95%) translateZ(-180px) rotateY(55deg) scale(0.78)";
+    }
+    if (offset === 2) {
+      return "translate(-50%, -50%) translateX(95%) translateZ(-180px) rotateY(-55deg) scale(0.78)";
+    }
+    return "translate(-50%, -50%) translateZ(-260px) scale(0.7)";
+  }
+
+  function goTo(nextIndex) {
+    index = ((nextIndex % total) + total) % total;
+
+    cards.forEach((card, i) => {
+      const offset = shortestOffset(index, i);
+      const abs = Math.abs(offset);
+
+      card.classList.remove(
+        "is-active",
+        "is-prev",
+        "is-next",
+        "is-far-prev",
+        "is-far-next",
+        "is-visible"
+      );
+
+      if (abs <= 2) {
+        card.classList.add("is-visible");
+        card.removeAttribute("aria-hidden");
+      } else {
+        card.setAttribute("aria-hidden", "true");
+      }
+
+      if (offset === 0) card.classList.add("is-active");
+      else if (offset === -1) card.classList.add("is-prev");
+      else if (offset === 1) card.classList.add("is-next");
+      else if (offset === -2) card.classList.add("is-far-prev");
+      else if (offset === 2) card.classList.add("is-far-next");
+
+      card.style.transform = poseFor(abs > 2 ? (offset < 0 ? -3 : 3) : offset);
+      card.style.zIndex = String(10 - abs);
+    });
+  }
+
+  function next() {
+    goTo(index + 1);
+  }
+
+  function start() {
+    if (timer) return;
+    timer = window.setInterval(next, intervalMs);
+  }
+
+  function stop() {
+    if (!timer) return;
+    window.clearInterval(timer);
+    timer = null;
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stop();
+    else start();
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) start();
+        else stop();
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(root);
+  } else {
+    start();
+  }
+
+  window.addEventListener("resize", () => goTo(index));
+  goTo(index);
+}
 
 // Toggle sections
 document.querySelectorAll(".section-title").forEach((title) => {
