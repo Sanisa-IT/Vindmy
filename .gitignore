@@ -9,3 +9,6 @@ wrangler.json
 wrangler.jsonc
 .dev.vars
 .mf/
+
+# Superpowers specs and plans (local workflow)
+docs/superpowers/
