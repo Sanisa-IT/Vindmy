@@ -1386,18 +1386,26 @@ main.delete-wrapper {
 }
 
 .howto-header h1 {
-  margin: 0 0 var(--space-1);
-}
-
-.howto-note {
-  color: var(--color-ink-muted);
   margin: 0 0 var(--space-4);
 }
 
 .howto-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 320px);
+  justify-content: center;
   gap: var(--space-3);
+  align-items: start;
+}
+
+.howto-card {
+  margin: 0;
+}
+
+.howto-card figcaption {
+  margin-top: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-ink);
 }
 
 .howto-video {
@@ -1417,30 +1425,8 @@ main.delete-wrapper {
   border: 0;
 }
 
-.howto-video--soon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #E2E8F0;
-  color: var(--color-ink-muted);
-}
-
-.howto-video--soon p {
-  margin: 0;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  font-size: 0.9rem;
-}
-
-@media (max-width: 1024px) {
-  .howto-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 640px) {
-  .howto-grid {
-    grid-template-columns: 1fr;
-  }
+.howto-video--short {
+  aspect-ratio: 9 / 16;
+  width: min(100%, 320px);
+  margin-inline: auto;
 }
