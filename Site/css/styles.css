@@ -614,6 +614,21 @@ body.home-page nav.navbar {
   max-width: 760px;
 }
 
+.competition-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 0 0 var(--space-3);
+}
+
+.competition-switch a {
+  font-weight: 700;
+}
+
+.competition-switch a[aria-current="page"] {
+  color: var(--color-secondary);
+}
+
 .competition-terms h1 {
   font-size: clamp(1.6rem, 3vw, 2.1rem);
   line-height: 1.25;
